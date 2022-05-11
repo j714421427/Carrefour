@@ -1,0 +1,50 @@
+﻿@model Carrefour.Models.Users.UserMainViewModel
+
+@{
+    ViewData["Title"] = "Main";
+}
+<h2>User</h2>
+<h5 style="font-size:50px">畫面策劃中 耐心等待</h5>
+<td><button class="add" value="0" style="margin-bottom:10px">新增</button></td>
+<table>
+    <tr>
+        <th>UserName</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    @foreach (var item in Model.Users)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td><button class="edit" value="@item.Id">編輯</button></td>
+            <td><button class="delete" value="@item.Id">刪除</button></td>
+        </tr>
+    }
+</table>
+@using (Html.BeginForm("Get", "User"))
+{
+    <input name="id" hidden />
+    <input id="submitEdit" type="submit" hidden>
+}
+
+<style type="text/css">
+</style>
+
+<script type="text/javascript">
+
+    //delete
+    $(document).on('click', ".delete", function () {
+        alert("想刪?沒權限嫩");
+    });
+
+    //Edit
+    $(document).on('click', ".edit,.add", function () {
+        $("[name=id]").val($(this).val());
+        if ($(this).val() == 0) {
+            alert("想增?沒權限嫩");
+            return;
+        }
+        $("#submitEdit").click();
+    });
+
+</script>

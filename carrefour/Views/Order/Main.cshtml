@@ -1,0 +1,437 @@
+﻿@model Carrefour.Models.Order.OrderMainViewModel
+
+@{
+    ViewData["Title"] = "Main";
+}
+
+<h2>Order</h2>
+
+<style>
+    a.disabled {
+        pointer-events: none;
+        cursor: default;
+    }
+
+    .save {
+        height: 100px;
+        width: 100%;
+        font-size: 50px;
+    }
+
+    textarea {
+        resize: none;
+        height: 400px;
+        width: 100%;
+    }
+
+    #screenshot {
+        height: 300px;
+        width: 600px;
+        position: absolute;
+        border: 1px solid #ccc;
+        background: #333;
+        padding: 5px;
+        display: none;
+        color: #fff;
+        z-index: 1000;
+    }
+
+    img.preview {
+        max-height: 100%;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+    th.sort.ascending:after {
+        content: '   ∧';
+    }
+
+    th.sort.descending:after {
+        content: '   ∨';
+    }
+
+    input[type="checkbox"] {
+        width: 30px; /*Desired width*/
+        height: 30px; /*Desired height*/
+    }
+</style>
+
+<ul class="nav nav-tabs" id="myTab">
+    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+    @foreach (var item in Model.Users)
+    {
+        var name = (!string.IsNullOrEmpty(item.Name) && item.Name.Length > 10) ? item.Name.Substring(0, 10) : item.Name;
+        <li><a data-toggle="tab" href="#menu@(item.Id)">@name</a></li>
+    }
+    <li><a data-toggle="tab" href="#output">Output Page</a></li>
+</ul>
+
+<div class="tab-content">
+    <!-- CarreFour image -->
+    <div>
+        <a href="https://online.carrefour.com.tw/tw/" target="_blank" style="font-size:100px">
+            <img src="https://online.carrefour.com.tw/on/demandware.static/Sites-Carrefour-Site/-/default/dwb9742678/images/c4-logo.png" />
+        </a>
+    </div>
+
+    <!-- Home -->
+    <div id="home" class="tab-pane fade in active">
+        <h3>HOME</h3>
+        <p>至今刪除將來時間奇蹟並且儘量最佳台北，一樣高中最快上了一年積，房地產大家都本來確保原來評分完善對話隊，鈴聲醫藥之中活力人生收購意思授權方式，室內導致系統快樂不怕內容簡介收藏本頁，下面統計大部分學會有時候必須食品白色實在支撐那時充分一看歌。</p>
+    </div>
+
+    <!-- User -->
+    @foreach (var item in Model.Users)
+    {    
+        <div id="menu@(item.Id)" class="tab-pane fade">
+            @Html.Action("Detail", "Order", new { userId = item.Id })
+        </div>
+    }
+
+    <!-- Output -->
+    <div id="output" class="tab-pane fade">
+        <h3>Output</h3>
+        <div><span style="font-size:100px">暫時的辣</span></div>
+        <textarea id="outputcontent" disabled="disabled"></textarea>
+        <input class="refresh" type="button" value="刷新">
+    </div>
+</div>
+
+<script>
+    var modify = false;
+
+    $(document).ready(function () {
+        //refresh keep current tab
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+        });
+        var activeTab = localStorage.getItem('activeTab');
+        if (activeTab) {
+            $('#myTab a[href="' + activeTab + '"]').tab('show');
+        }
+
+        $(window).bind('beforeunload', function () {
+            if (modify) {
+                return '';
+            }
+        });
+
+        screenshotPreview();
+
+        //per 5 secs refresh output content
+        setInterval(( () => RefreshOutput() )  , 5000);
+    });
+
+    $(document).keypress(function(e) {
+        if (e.which == 13) {
+            if (modify) {
+                $(".tab-pane.active > form > .save").click();
+            }
+        }
+     });
+
+    $(document).on("click", ".save", function () {
+
+        var form = $(this).closest("form");
+
+        //set List Count
+        form.find("tbody tr").each(function (trCount) {
+            var countTag = "@(nameof(Carrefour.Models.Order.UserOrderSaveViewModel.Items))[" + trCount + "].";
+
+            $(this).find("[name=Name]").attr("name", countTag + "Name");
+            $(this).find("[name=Url]").attr("name", countTag + "Url");
+            $(this).find("[name=Quantity]").attr("name", countTag + "Quantity");
+            $(this).find("[name=Id]").attr("name", countTag + "Id");
+
+            if ($(this).find("input[type=checkbox]").prop("checked")) {
+                $(this).find("[name=ItemStatus]").attr("name", countTag + "ItemStatus").val("@Carrefour.Service.Model.Enum.ItemStatus.Enabled");
+            }
+            else {
+                $(this).find("[name=ItemStatus]").attr("name", countTag + "ItemStatus").val("@Carrefour.Service.Model.Enum.ItemStatus.Disabled");
+            }
+
+            $(this).find("[name=ImgSrc]").attr("name", countTag + "ImgSrc");
+
+        });
+
+        $.ajax({
+            type: "POST",
+            url: form.attr("action"),
+            data: form.serialize(), // serializes the form's elements.
+            success: function (data) {
+                modify = false;
+                location.reload();
+            },
+            error: function (data) {
+                alert("別輸入負數啦幹 跟你錢包餘額一樣?");
+            },
+        });
+    });
+
+    $(document).on('change', ".quant", function () {
+        Modify();
+    });
+
+    $(document).on('change', "input.checkall", function () {
+        var flag = this.checked;
+        console.log(flag);
+        $(this).closest("table").find("input[type=checkbox]").each(function () {
+
+            this.checked = flag;
+            if (flag) {
+                $(this).attr("checked");
+            }
+            else {
+                $(this).removeAttr("checked","");
+            }
+        });
+    });
+
+    $(document).on('click', ".refresh", function () {
+        $(this).val("刷新中....").attr("disabled", "disabled");
+        RefreshOutput();
+        $(this).val("刷新").removeAttr("disabled");
+    });
+
+    function RefreshOutput() {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("Output")",
+            async: false,
+            success: function (result) {
+                var content = "";
+                jQuery.each(result['items'], function () {
+                    content += this.quantity + " 份 :" + this.name + "\n" + this.url + "\n\n";
+                });
+                $("#outputcontent").text(content);//.scrollTop(0);
+             }
+        });
+    }
+
+    //$(document).on('keydown', ".quant", function () {
+    //    return false;
+    //});
+
+    $(document).on('click', "#myTab > li:not(.active)", function (e) {
+        if (modify) {
+            alert("先儲存啦 想射後不理?");
+            e.stopImmediatePropagation()
+            e.stopPropagation()
+        }
+    });
+
+    $(".add-row").click(function () {
+
+        //get input value
+        var nameInput = $(this).siblings("[name='nameInput']");
+        var addBtn = $(this);
+        var urlInput = $(this).siblings("[name='urlInput']");
+
+        //check http
+        if (!(urlInput.val().indexOf('http:') >= 0 || urlInput.val().indexOf('https:') >= 0)) {
+            alert("輸入網址啦幹");
+            return;
+        }
+
+        if (!(urlInput.val().indexOf('carrefour.com.tw') >= 0)) {
+            alert("輸入家樂福網址啦幹");
+            return;
+        }
+
+        var urlString = urlInput.val();
+        var start = urlString.indexOf('http');
+        var end = urlString.indexOf('http').length;
+        //if (urlString.indexOf('?') >= 0) {
+        //    end = urlString.indexOf('?')
+        //}
+        //urlString = urlString.substr(start, end);
+
+        //check repeat
+        var isRepeat = false;
+
+        $(this).siblings("form").find("tbody tr").find("[name=Url]").each(function (e) {
+            if (this.value == urlString) {
+                isRepeat = true;
+            }
+        });
+
+        if (isRepeat) {
+            alert("重複商品了 眼殘?");
+            return;
+        }
+
+        nameInput.attr("disabled", "disabled");
+        addBtn.attr("disabled", "disabled");
+        urlInput.attr("disabled", "disabled");
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetProductDetail")",
+            data: {
+                carrefourUrl: urlString,
+            },
+            dataType: "json",
+            success: function (result) {
+                nameInput.removeAttr("disabled");
+                addBtn.removeAttr("disabled");
+                urlInput.removeAttr("disabled");
+
+                if (result["name"] == null || result["name"] == "") {
+                    alert("找不到品名 87");
+                }
+                else {
+                    //remove sample
+                    var sampleRow = addBtn.siblings("form").find("table").find(".sample");
+                    if (sampleRow.length > 0) {
+                        sampleRow.remove()
+                    }
+                    nameInput.val(result["name"]);
+                    urlInput.val(urlString);
+
+                    //bulid row
+                    var row = $("<tr>");
+                    var checkCol = $("<td>").append($("<input>").attr({"type": "checkbox", "checked": "" }).append($("<input>").attr({"name":"ItemStatus"}).hide()));
+                    var nameCol = $("<td>").append($("<span>").attr({ "rel": result["image"], "class": "itemName" }).text(nameInput.val()))
+                        .append($("<input>").attr({ "name": "ImgSrc" , "value": result["image"] }).hide())
+                        .append($("<input>").attr({ "name": "Name", "value": nameInput.val() }).hide());
+                    var urlCol = $("<td>").append($("<a>").attr({"href":urlInput.val() , "target" : "_blank"}).text(urlInput.val())).append($("<input>").attr({ "name": "Url", "value": urlInput.val() }).hide());
+                    var quantityCol = $("<td>").append($("<input>").attr({ "type": "number", "name": "Quantity", "value": 1, "class": "quant", "max": 10, "min": 1 }));
+                    var idCol = $("<td>").append($("<button>").attr({ "type": "button", "name": "Id", "value": 0, "class": "delete-row" }).text("Delete Row"));
+
+                    row.append(checkCol,nameCol, urlCol, quantityCol, idCol);
+
+                    //add row
+                    addBtn.siblings("form").find("table").append(row);
+
+                    Modify();
+                    ReSort();
+
+                    //clear input value
+                    nameInput.val("");
+                    urlInput.val("");
+                }
+            },
+        });
+    });
+
+    //delete row
+    $(document).on('click', ".delete-row", function () {
+        $(this).closest("tr").remove();
+        Modify();
+    });
+
+    function Modify() {
+        modify = true;
+    }
+
+    //preview img
+    function screenshotPreview() {
+        xOffset = 10;
+        yOffset = 30;
+        $(document).on('mouseenter', "span.itemName", function (e) {
+            this.t = this.title;
+            var c = (this.t != "") ? "<br/>" + this.t : "";
+            $("body").append("<div id='screenshot'><img class='preview' src='" + $(this).attr("rel") + "' />" + c + "</div>");
+            $("#screenshot")
+                .css("position", "absolute")
+                .css("top", ( e.pageY - $("#screenshot").height() - yOffset) + "px")
+                .css("left", (e.pageX + yOffset) + "px")
+                .fadeIn("fast");
+        });
+        $(document).on('mouseleave', "span.itemName", function (e) {
+             this.title = this.t;
+             $("#screenshot").remove();
+        });
+
+        $(document).on('mousemove', "span.itemName", function (e) {
+            $("#screenshot")
+                .css("position", "absolute")
+                .css("top", ( e.pageY - $("#screenshot").height()  - yOffset) + "px")
+                .css("left", (e.pageX + yOffset) + "px");
+        });
+    };
+
+    //sort
+
+    function ReSort() {
+        var sortth = $(".sort");
+        var table = sortth.parents('table').eq(0)
+        var rows = table.find('tr:gt(0)').toArray().sort(comparer(sortth.index()))
+
+        if ($(".sort").length > 1 && !$(".sort")[0].asc) {
+            rows = rows.reverse();
+        }
+
+        for (var i = 0; i < rows.length; i++) {
+            table.append(rows[i]);
+        }
+    }
+
+    $('th').click(function (e) {
+
+        if ($(e.target).is('input')) {
+            return;
+        }
+
+        $("th").removeAttr('class');
+
+        var table = $(this).parents('table').eq(0)
+        var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+
+        this.asc = !this.asc
+        
+            
+        if (this.asc) {
+            $(this).addClass("sort ascending");
+        }
+        else {
+            rows = rows.reverse();
+            $(this).addClass("sort descending");
+        }
+
+        for (var i = 0; i < rows.length; i++) {
+            table.append(rows[i]);
+        }
+    })
+
+    function comparer(index) {
+        return function (a, b) {
+            var valA = getCellValue(a, index), valB = getCellValue(b, index);
+            return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+        }
+    }
+
+    function getCellValue(row, index) {
+
+        var obj = $(row).children('td').eq(index).find("[name=ItemStatus],[name=Name],[name=Url],[name=Id],[name=Quantity]")
+
+        var tdName = obj.attr("name");
+
+        switch (tdName) {
+            case "ItemStatus":
+                if (obj.siblings("input[type=checkbox]").prop("checked")) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+                break;
+            case "Name":
+            case "Url":
+            case "Id":
+            case "Quantity":
+                return obj.val();
+                break;
+            default:
+                return $(row).children('td').eq(index).text();
+                break;
+        }
+    }
+
+</script>

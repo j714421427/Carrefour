@@ -1,0 +1,54 @@
+﻿@model Carrefour.Models.Users.UserDetailViewModel
+@{
+    ViewData["Title"] = "_Detail";
+}
+
+
+@{ if (Model.User.Id > 0)
+    {
+        <h2>@Model.User.Name</h2>
+        <h5 style="font-size:50px">Modify</h5>
+    }
+    else
+    {
+        <h2>New User</h2>
+        <h5 style="font-size:50px">Insert</h5>
+    } }
+@using (Html.BeginForm("Main", "User"))
+{
+    <button type="submit">返回</button>
+}
+
+@using (Html.BeginForm("Save", "User"))
+{
+    <input name="User.Id" value="@Model.User.Id" hidden />
+
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input name="User.Name" value="@Model.User.Name" /></td>
+            <td>Sex</td>
+            <td><input name="User.Sex" value="" /></td>
+        </tr>
+        <tr>
+            <td>ID</td>
+            <td><input name="User.IDnumber" value="" /></td>
+            <td>Age</td>
+            <td><input name="User.Age" value="" /></td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td colspan="3"><input name="User.Address" value="" /></td>
+        </tr>
+        <tr>
+            <td>E-mail</td>
+            <td colspan="3"><input name="User.E-mail" value="" /></td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td colspan="3"><img name="User.Photo" src="https://cdn.eventfinda.co.nz/uploads/content/transformed/627070-3192-34.jpg" /></td>
+        </tr>
+    </table>
+    <input type="submit" value="Send" />
+}
+

@@ -1,0 +1,61 @@
+﻿@model Carrefour.Models.Order.UserOrderViewModel
+
+@{
+    ViewData["Title"] = "_Detail";
+}
+
+<h3>@Model.User.Name</h3>
+<p>@Model.User.Name Queue</p>
+<input name="nameInput" placeholder="Name" style="width:200px">
+<input name="urlInput" class="itemurl" placeholder="Object url" style="width:400px">
+<input type="button" name="addBtn" class="add-row" value="Add Row" style="width:100px">
+
+@using (Html.BeginForm("Save", "Order"))
+{
+    <input type="number" name="userId" value="@(Model.User.Id)" hidden>
+    <table>
+        <thead>
+            <tr>
+                <th><input type="checkbox" class="checkall" /></th>
+                <th>Name</th>
+                <th>Url</th>
+                <th>Quantity</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                if (Model.Items.Count < 1)
+                {
+                    <tr class="sample">
+                        <td><input type="checkbox" /></td>
+                        <td>我只是sample 別管我</td>
+                        <td>http://sample.sunny</td>
+                        <td><input type="number" value="1" @*class="quant"*@ max="10" min="1"></td>
+                        <td><button type="button" value="1" class="delete-row">Delete Row</button></td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model.Items)
+                    {
+                        var checkBox = item.ItemStatus == Carrefour.Service.Model.Enum.ItemStatus.Enabled ? "checked" : "";
+                        <tr>
+                            <td><input type="checkbox" @checkBox /><input name="ItemStatus" style="display:none"></td>
+                            <td><span class="itemName" rel="@item.ImgSrc">@item.Name</span><input name="ImgSrc" value="@item.ImgSrc" style="display:none" /><input name="Name" value="@item.Name" style="display:none" /></td>
+                            <td><a href="@item.Url" target="_blank">@item.Url</a><input name="Url" value="@item.Url" style="display:none" /></td>
+                            <td><input type="number" name="Quantity" value="@item.Quantity" class="quant" max="10" min="1"></td>
+                            <td><button type="button" name="Id" value="@item.Id" class="delete-row">Delete Row</button></td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+    <input class="save" type="button" value="save">
+}
+
+<h3>Output</h3>
+<div><span style="font-size:100px">自己貼辣</span></div>
+<textarea disabled="disabled">@Model.OutputContent</textarea>

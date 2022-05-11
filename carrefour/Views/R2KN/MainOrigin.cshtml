@@ -1,0 +1,1201 @@
+﻿
+@{
+    ViewData["Title"] = "Main";
+}
+
+<h2>R2KN</h2>
+<h3 style="font-size:50px">V 1.2</h3>
+<div>
+    修改內容<br />
+    1.新增 組合秘笈 滑鼠拖曳滑動<br />
+    2.優化 組合秘笈 右上快速顯示<br />
+</div>
+<br />
+<input id="historyUpdate" type="button" />
+
+<div class="historyUpdateContent">
+    歷史<br />
+    Beta 1.0<br />
+    1.新增 組合秘笈<br />
+    2.新增 組合秘笈 簡易/標準版 功能<br />
+
+    V 1.1<br />
+    1.新增 組合秘笈 垂直/水平 功能<br />
+    2.新增 組合秘笈 右鍵返回英雄 EX: 1.左鍵點 女武神 2.左鍵點 符文騎士 3.點右鍵回 女武神<br />
+    3.新增 組合秘笈 右上快速顯示<br />
+</div>
+
+<br />
+
+<input type="button" id="normal" value="標準" />
+<input type="button" id="simple" value="簡易" />
+
+<input type="button" id="horizontal" value="水平" />
+<input type="button" id="straight" value="垂直" />
+
+<br />
+<br />
+
+<div class="divTable hero heroH">
+    <div class="divTableBody">
+        <div class="divTableRow">
+            <div class="divTableCell T1">T1</div>
+
+            <div class="divTableCell T2">T2</div>
+            <div class="divTableCell T2">T2</div>
+
+            <div class="divTableCell T3">T3</div>
+            <div class="divTableCell T3">T3</div>
+            <div class="divTableCell T3">T3</div>
+            <div class="divTableCell T3">T3</div>
+
+            <div class="divTableCell T4">T4</div>
+            <div class="divTableCell T4">T4</div>
+            <div class="divTableCell T4">T4</div>
+            <div class="divTableCell T4">T4</div>
+            <div class="divTableCell T4">T4</div>
+            <div class="divTableCell T4">T4</div>
+            <div class="divTableCell T4">T4</div>
+
+            <div class="divTableCell T5">T5</div>
+            <div class="divTableCell T5">T5</div>
+            <div class="divTableCell T5">T5</div>
+            <div class="divTableCell T5">T5</div>
+            <div class="divTableCell T5">T5</div>
+            <div class="divTableCell T5">T5</div>
+        </div>
+        <div class="divTableRow S" occupation="S">
+            <div class="divTableCell"><div class="main" id="S"></div></div>
+
+            <div class="divTableCell"><div class="main" id="SK"></div></div>
+            <div class="divTableCell"><div class="main" id="SS"></div></div>
+
+            <div class="divTableCell"><div class="main" id="SKSS"></div></div>
+            <div class="divTableCell"><div class="main" id="SKKE"></div></div>
+            <div class="divTableCell"><div class="main" id="SSWW"></div></div>
+            <div class="divTableCell"><div class="main" id="SSST"></div></div>
+
+            <div class="divTableCell"><div class="main" id="SKSSTTAP"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSSMPWW"></div></div>
+            <div class="divTableCell"><div class="main" id="SKKESSWW"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSSSKKE"></div></div>
+            <div class="divTableCell"><div class="main" id="SSSTEEE0"></div></div>
+            <div class="divTableCell"><div class="main" id="SSSTWWKK"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+
+            <div class="divTableCell"><div class="main" id="SKSSMPWWTTMMATMW"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSSTTAPSKKESSWW"></div></div>
+            <div class="divTableCell"><div class="main" id="SKKESSWWSKSSSKKE"></div></div>
+            <div class="divTableCell"><div class="main" id="SSSTWWKKSSWWAAAK"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+        </div>
+        <div class="divTableRow A" occupation="A">
+            <div class="divTableCell"><div class="main" id="A"></div></div>
+
+            <div class="divTableCell"><div class="main" id="AA"></div></div>
+            <div class="divTableCell"><div class="main" id="AT"></div></div>
+
+            <div class="divTableCell"><div class="main" id="AAAT"></div></div>
+            <div class="divTableCell"><div class="main" id="AAAK"></div></div>
+            <div class="divTableCell"><div class="main" id="ATAP"></div></div>
+            <div class="divTableCell"><div class="main" id="AAKE"></div></div>
+
+            <div class="divTableCell"><div class="main" id="AAATATAP"></div></div>
+            <div class="divTableCell"><div class="main" id="ATAPTTST"></div></div>
+            <div class="divTableCell"><div class="main" id="AAATAAAK"></div></div>
+            <div class="divTableCell"><div class="main" id="SSWWAAAK"></div></div>
+            <div class="divTableCell"><div class="main" id="AAATAAKE"></div></div>
+            <div class="divTableCell"><div class="main" id="AAKESTMM"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+
+            <div class="divTableCell"><div class="main" id="AAATATAPATAPTTST"></div></div>
+            <div class="divTableCell"><div class="main" id="AAATAAAKTTSTSTMM"></div></div>
+            <div class="divTableCell"><div class="main" id="SSWWAAAKSKSTMPPE"></div></div>
+            <div class="divTableCell"><div class="main" id="ATAPTTSTAAATAAKE"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+        </div>
+        <div class="divTableRow T" occupation="T">
+            <div class="divTableCell"><div class="main" id="T"></div></div>
+
+            <div class="divTableCell"><div class="main" id="TT"></div></div>
+            <div class="divTableCell"><div class="main" id="ST"></div></div>
+
+            <div class="divTableCell"><div class="main" id="TTST"></div></div>
+            <div class="divTableCell"><div class="main" id="TTKE"></div></div>
+            <div class="divTableCell"><div class="main" id="SKST"></div></div>
+            <div class="divTableCell"><div class="main" id="STMM"></div></div>
+
+            <div class="divTableCell"><div class="main" id="SKSTMPPE"></div></div>
+            <div class="divTableCell"><div class="main" id="TTSTSKST"></div></div>
+            <div class="divTableCell"><div class="main" id="TTKEWWKK"></div></div>
+            <div class="divTableCell"><div class="main" id="TTSTSTMM"></div></div>
+            <div class="divTableCell"><div class="main" id="AAAKTTKE"></div></div>
+            <div class="divTableCell"><div class="main" id="TTKEAPPE"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+
+            <div class="divTableCell"><div class="main" id="TTKEWWKKSSWEMWWE"></div></div>
+            <div class="divTableCell"><div class="main" id="SSSTWWKKTTKEAPPE"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSTMPPETTSTSKST"></div></div>
+            <div class="divTableCell"><div class="main" id="TTSTSKSTTTSTSTMM"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+        </div>
+        <div class="divTableRow M" occupation="M">
+            <div class="divTableCell"><div class="main" id="M"></div></div>
+
+            <div class="divTableCell"><div class="main" id="MM"></div></div>
+            <div class="divTableCell"><div class="main" id="MW"></div></div>
+
+            <div class="divTableCell"><div class="main" id="MMPE"></div></div>
+            <div class="divTableCell"><div class="main" id="TTMM"></div></div>
+            <div class="divTableCell"><div class="main" id="MMMW"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMW"></div></div>
+
+            <div class="divTableCell"><div class="main" id="MMPETTMM"></div></div>
+            <div class="divTableCell"><div class="main" id="TTMMATMW"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSTMMMW"></div></div>
+            <div class="divTableCell"><div class="main" id="ATAPMMMW"></div></div>
+            <div class="divTableCell"><div class="main" id="MMPEMWWE"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMWMWPE"></div></div>
+            <div class="divTableCell"><div class="main" id="TTMMMMMW"></div></div>
+
+            <div class="divTableCell"><div class="main" id="MMPETTMMTTMMATMW"></div></div>
+            <div class="divTableCell"><div class="main" id="ATAPMMMWMPPEPPP0"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMWMWPETTMMMMMW"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSTMMMWMPPEATMP"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+        </div>
+        <div class="divTableRow P" occupation="P">
+            <div class="divTableCell"><div class="main" id="P"></div></div>
+
+            <div class="divTableCell"><div class="main" id="MP"></div></div>
+            <div class="divTableCell"><div class="main" id="AP"></div></div>
+
+            <div class="divTableCell"><div class="main" id="TTAP"></div></div>
+            <div class="divTableCell"><div class="main" id="MPPE"></div></div>
+            <div class="divTableCell"><div class="main" id="PPP0"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMP"></div></div>
+
+            <div class="divTableCell"><div class="main" id="SSWWPPP0"></div></div>
+            <div class="divTableCell"><div class="main" id="MMPETTAP"></div></div>
+            <div class="divTableCell"><div class="main" id="PPP0SKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="MPPEPPP0"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMPAPPE"></div></div>
+            <div class="divTableCell"><div class="main" id="MPPEATMP"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+
+            <div class="divTableCell"><div class="main" id="SSWWPPP0TTAPMPWW"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSTMMMWPPP0SKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="MMPETTAPMPPEPPP0"></div></div>
+            <div class="divTableCell"><div class="main" id="AAATATAPMMPETTAP"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+        </div>
+        <div class="divTableRow W" occupation="W">
+            <div class="divTableCell"><div class="main" id="W"></div></div>
+
+            <div class="divTableCell"><div class="main" id="WW"></div></div>
+            <div class="divTableCell"><div class="main" id="WE"></div></div>
+
+            <div class="divTableCell"><div class="main" id="MPWW"></div></div>
+            <div class="divTableCell"><div class="main" id="WWWE"></div></div>
+            <div class="divTableCell"><div class="main" id="SSWE"></div></div>
+            <div class="divTableCell"><div class="main" id="MWWE"></div></div>
+
+            <div class="divTableCell"><div class="main" id="WWWEWEKE"></div></div>
+            <div class="divTableCell"><div class="main" id="SSSTMWWE"></div></div>
+            <div class="divTableCell"><div class="main" id="WWWESSWE"></div></div>
+            <div class="divTableCell"><div class="main" id="TTAPMPWW"></div></div>
+            <div class="divTableCell"><div class="main" id="STMMSSWE"></div></div>
+            <div class="divTableCell"><div class="main" id="SSWEMWWE"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+
+            <div class="divTableCell"><div class="main" id="TTAPMPWWSSWEMWWE"></div></div>
+            <div class="divTableCell"><div class="main" id="WWWEWEKEWWWESSWE"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMWMWPESTMMSSWE"></div></div>
+            <div class="divTableCell"><div class="main" id="TTKEAPPEWWWEWEKE"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+        </div>
+        <div class="divTableRow K" occupation="K">
+            <div class="divTableCell"><div class="main" id="K"></div></div>
+
+            <div class="divTableCell"><div class="main" id="KK"></div></div>
+            <div class="divTableCell"><div class="main" id="AK"></div></div>
+
+            <div class="divTableCell"><div class="main" id="KKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="SKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="MPKK"></div></div>
+            <div class="divTableCell"><div class="main" id="WWKK"></div></div>
+
+            <div class="divTableCell"><div class="main" id="KKAKSKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="WWWEWWKK"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMWSKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="KKAKMPKK"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMPKKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="MPKKWEKE"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+
+            <div class="divTableCell"><div class="main" id="KKAKSKAKWWWEWWKK"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMWSKAKMPKKWEKE"></div></div>
+            <div class="divTableCell"><div class="main" id="WWWEWWKKKKAKMPKK"></div></div>
+            <div class="divTableCell"><div class="main" id="MPPEATMPMPKKWEKE"></div></div>
+            <div class="divTableCell"><div class="main" id="ATAPMMMWKKAKSKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="KKAKMPKKSKKEEEE0"></div></div>
+        </div>
+        <div class="divTableRow E" occupation="E">
+            <div class="divTableCell"><div class="main" id="E"></div></div>
+
+            <div class="divTableCell"><div class="main" id="PE"></div></div>
+            <div class="divTableCell"><div class="main" id="KE"></div></div>
+
+            <div class="divTableCell"><div class="main" id="MWPE"></div></div>
+            <div class="divTableCell"><div class="main" id="EEE0"></div></div>
+            <div class="divTableCell"><div class="main" id="WEKE"></div></div>
+            <div class="divTableCell"><div class="main" id="APPE"></div></div>
+
+            <div class="divTableCell"><div class="main" id="AAKEAPPE"></div></div>
+            <div class="divTableCell"><div class="main" id="MWPEWEKE"></div></div>
+            <div class="divTableCell"><div class="main" id="SKKEEEE0"></div></div>
+            <div class="divTableCell"><div class="main" id="MPKKEEE0"></div></div>
+            <div class="divTableCell"><div class="main" id="MWPEEEE0"></div></div>
+            <div class="divTableCell"><div class="main" id="MPWWMWPE"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+
+            <div class="divTableCell"><div class="main" id="AAATAAKESKKEEEE0"></div></div>
+            <div class="divTableCell"><div class="main" id="MWPEWEKEMPKKEEE0"></div></div>
+            <div class="divTableCell"><div class="main" id="MWPEEEE0MPWWMWPE"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSSTTAPMWPEWEKE"></div></div>
+            <div class="divTableCell"><div class="main" id="PPP0SKAKMPWWMWPE"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+        </div>
+    </div>
+</div>
+
+<div class="divTable hero heroS">
+    <div class="divTableBody">
+        <div class="divTableRow T1">
+            <div class="divTableCell">T1</div>
+            <div class="divTableCell"><div class="main" id="S"></div></div>
+            <div class="divTableCell"><div class="main" id="A"></div></div>
+            <div class="divTableCell"><div class="main" id="T"></div></div>
+            <div class="divTableCell"><div class="main" id="M"></div></div>
+            <div class="divTableCell"><div class="main" id="P"></div></div>
+            <div class="divTableCell"><div class="main" id="W"></div></div>
+            <div class="divTableCell"><div class="main" id="K"></div></div>
+            <div class="divTableCell"><div class="main" id="E"></div></div>
+        </div>
+        <div class="divTableRow T2">
+            <div class="divTableCell">T2</div>
+            <div class="divTableCell"><div class="main" id="SK"></div></div>
+            <div class="divTableCell"><div class="main" id="AA"></div></div>
+            <div class="divTableCell"><div class="main" id="TT"></div></div>
+            <div class="divTableCell"><div class="main" id="MM"></div></div>
+            <div class="divTableCell"><div class="main" id="MP"></div></div>
+            <div class="divTableCell"><div class="main" id="WW"></div></div>
+            <div class="divTableCell"><div class="main" id="KK"></div></div>
+            <div class="divTableCell"><div class="main" id="PE"></div></div>
+        </div>
+        <div class="divTableRow T2">
+            <div class="divTableCell">T2</div>
+            <div class="divTableCell"><div class="main" id="SS"></div></div>
+            <div class="divTableCell"><div class="main" id="AT"></div></div>
+            <div class="divTableCell"><div class="main" id="ST"></div></div>
+            <div class="divTableCell"><div class="main" id="MW"></div></div>
+            <div class="divTableCell"><div class="main" id="AP"></div></div>
+            <div class="divTableCell"><div class="main" id="WE"></div></div>
+            <div class="divTableCell"><div class="main" id="AK"></div></div>
+            <div class="divTableCell"><div class="main" id="KE"></div></div>
+        </div>
+        <div class="divTableRow T3">
+            <div class="divTableCell">T3</div>
+
+            <div class="divTableCell"><div class="main" id="SKSS"></div></div>
+            <div class="divTableCell"><div class="main" id="AAAT"></div></div>
+            <div class="divTableCell"><div class="main" id="TTST"></div></div>
+            <div class="divTableCell"><div class="main" id="MMPE"></div></div>
+            <div class="divTableCell"><div class="main" id="TTAP"></div></div>
+            <div class="divTableCell"><div class="main" id="MPWW"></div></div>
+            <div class="divTableCell"><div class="main" id="KKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="MWPE"></div></div>
+        </div>
+        <div class="divTableRow T3">
+            <div class="divTableCell">T3</div>
+            <div class="divTableCell"><div class="main" id="SKKE"></div></div>
+            <div class="divTableCell"><div class="main" id="AAAK"></div></div>
+            <div class="divTableCell"><div class="main" id="TTKE"></div></div>
+            <div class="divTableCell"><div class="main" id="TTMM"></div></div>
+            <div class="divTableCell"><div class="main" id="MPPE"></div></div>
+            <div class="divTableCell"><div class="main" id="WWWE"></div></div>
+            <div class="divTableCell"><div class="main" id="SKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="EEE0"></div></div>
+        </div>
+        <div class="divTableRow T3">
+            <div class="divTableCell">T3</div>
+            <div class="divTableCell"><div class="main" id="SSWW"></div></div>
+            <div class="divTableCell"><div class="main" id="ATAP"></div></div>
+            <div class="divTableCell"><div class="main" id="SKST"></div></div>
+            <div class="divTableCell"><div class="main" id="MMMW"></div></div>
+            <div class="divTableCell"><div class="main" id="PPP0"></div></div>
+            <div class="divTableCell"><div class="main" id="SSWE"></div></div>
+            <div class="divTableCell"><div class="main" id="MPKK"></div></div>
+            <div class="divTableCell"><div class="main" id="WEKE"></div></div>
+        </div>
+        <div class="divTableRow T3">
+            <div class="divTableCell">T3</div>
+            <div class="divTableCell"><div class="main" id="SSST"></div></div>
+            <div class="divTableCell"><div class="main" id="AAKE"></div></div>
+            <div class="divTableCell"><div class="main" id="STMM"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMW"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMP"></div></div>
+            <div class="divTableCell"><div class="main" id="MWWE"></div></div>
+            <div class="divTableCell"><div class="main" id="WWKK"></div></div>
+            <div class="divTableCell"><div class="main" id="APPE"></div></div>
+        </div>
+        <div class="divTableRow T4">
+            <div class="divTableCell">T4</div>
+            <div class="divTableCell"><div class="main" id="SKSSTTAP"></div></div>
+            <div class="divTableCell"><div class="main" id="AAATATAP"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSTMPPE"></div></div>
+            <div class="divTableCell"><div class="main" id="MMPETTMM"></div></div>
+            <div class="divTableCell"><div class="main" id="SSWWPPP0"></div></div>
+            <div class="divTableCell"><div class="main" id="WWWEWEKE"></div></div>
+
+            <div class="divTableCell"><div class="main" id="KKAKSKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="AAKEAPPE"></div></div>
+        </div>
+        <div class="divTableRow T4">
+            <div class="divTableCell">T4</div>
+            <div class="divTableCell"><div class="main" id="SKSSMPWW"></div></div>
+            <div class="divTableCell"><div class="main" id="ATAPTTST"></div></div>
+            <div class="divTableCell"><div class="main" id="TTSTSKST"></div></div>
+            <div class="divTableCell"><div class="main" id="TTMMATMW"></div></div>
+            <div class="divTableCell"><div class="main" id="MMPETTAP"></div></div>
+            <div class="divTableCell"><div class="main" id="SSSTMWWE"></div></div>
+            <div class="divTableCell"><div class="main" id="WWWEWWKK"></div></div>
+            <div class="divTableCell"><div class="main" id="MWPEWEKE"></div></div>
+        </div>
+        <div class="divTableRow T4">
+            <div class="divTableCell">T4</div>
+            <div class="divTableCell"><div class="main" id="SKKESSWW"></div></div>
+            <div class="divTableCell"><div class="main" id="AAATAAAK"></div></div>
+            <div class="divTableCell"><div class="main" id="TTKEWWKK"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSTMMMW"></div></div>
+            <div class="divTableCell"><div class="main" id="PPP0SKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="WWWESSWE"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMWSKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="SKKEEEE0"></div></div>
+        </div>
+        <div class="divTableRow T4">
+            <div class="divTableCell">T4</div>
+            <div class="divTableCell"><div class="main" id="SKSSSKKE"></div></div>
+            <div class="divTableCell"><div class="main" id="SSWWAAAK"></div></div>
+            <div class="divTableCell"><div class="main" id="TTSTSTMM"></div></div>
+            <div class="divTableCell"><div class="main" id="ATAPMMMW"></div></div>
+            <div class="divTableCell"><div class="main" id="MPPEPPP0"></div></div>
+            <div class="divTableCell"><div class="main" id="TTAPMPWW"></div></div>
+            <div class="divTableCell"><div class="main" id="KKAKMPKK"></div></div>
+            <div class="divTableCell"><div class="main" id="MPKKEEE0"></div></div>
+        </div>
+        <div class="divTableRow T4">
+            <div class="divTableCell">T4</div>
+            <div class="divTableCell"><div class="main" id="SSTTEEE0"></div></div>
+            <div class="divTableCell"><div class="main" id="AAATAAKE"></div></div>
+            <div class="divTableCell"><div class="main" id="AAAKTTKE"></div></div>
+            <div class="divTableCell"><div class="main" id="MMPEMWWE"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMPAPPE"></div></div>
+            <div class="divTableCell"><div class="main" id="STMMSSWE"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMPKKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="MWPEEEE0"></div></div>
+        </div>
+        <div class="divTableRow T4">
+            <div class="divTableCell">T4</div>
+            <div class="divTableCell"><div class="main" id="SSSTWWKK"></div></div>
+            <div class="divTableCell"><div class="main" id="AAKESTMM"></div></div>
+            <div class="divTableCell"><div class="main" id="TTKEAPPE"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMWMWPE"></div></div>
+            <div class="divTableCell"><div class="main" id="MPPEATMP"></div></div>
+            <div class="divTableCell"><div class="main" id="SSWEMWWE"></div></div>
+            <div class="divTableCell"><div class="main" id="MPKKWEKE"></div></div>
+            <div class="divTableCell"><div class="main" id="MPWWMWPE"></div></div>
+        </div>
+        <div class="divTableRow T4">
+            <div class="divTableCell">T4</div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id="TTMMMMMW"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+        </div>
+        <div class="divTableRow T5">
+            <div class="divTableCell">T5</div>
+            <div class="divTableCell"><div class="main" id="SKSSMPWWTTMMATMW"></div></div>
+            <div class="divTableCell"><div class="main" id="AAATATAPATAPTTST"></div></div>
+            <div class="divTableCell"><div class="main" id="TTKEWWKKSSWEMWWE"></div></div>
+            <div class="divTableCell"><div class="main" id="MMPETTMMTTMMATMW"></div></div>
+            <div class="divTableCell"><div class="main" id="SSWWPPP0TTAPMPWW"></div></div>
+            <div class="divTableCell"><div class="main" id="TTAPMPWWSSWEMWWE"></div></div>
+            <div class="divTableCell"><div class="main" id="KKAKSKAKWWWEWWKK"></div></div>
+            <div class="divTableCell"><div class="main" id="AAATAAKESKKEEEE0"></div></div>
+        </div>
+        <div class="divTableRow T5">
+            <div class="divTableCell">T5</div>
+            <div class="divTableCell"><div class="main" id="SKSSTTAPSKKESSWW"></div></div>
+            <div class="divTableCell"><div class="main" id="AAATAAAKTTSTSTMM"></div></div>
+            <div class="divTableCell"><div class="main" id="SSSTWWKKTTKEAPPE"></div></div>
+            <div class="divTableCell"><div class="main" id="ATAPMMMWMPPEPPP0"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSTMMMWPPP0SKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="WWWEWEKEWWWESSWE"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMWSKAKMPKKWEKE"></div></div>
+            <div class="divTableCell"><div class="main" id="MWPEWEKEMPKKEEE0"></div></div>
+        </div>
+        <div class="divTableRow T5">
+            <div class="divTableCell">T5</div>
+            <div class="divTableCell"><div class="main" id="SKKESSWWSKSSSKKE"></div></div>
+            <div class="divTableCell"><div class="main" id="SSWWAAAKSKSTMPPE"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSTMPPETTSTSKST"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMWMWPETTMMMMMW"></div></div>
+            <div class="divTableCell"><div class="main" id="MMPETTAPMPPEPPP0"></div></div>
+            <div class="divTableCell"><div class="main" id="ATMWMWPESTMMSSWE"></div></div>
+            <div class="divTableCell"><div class="main" id="WWWEWWKKKKAKMPKK"></div></div>
+            <div class="divTableCell"><div class="main" id="MWPEEEE0MPWWMWPE"></div></div>
+        </div>
+        <div class="divTableRow T5">
+            <div class="divTableCell">T5</div>
+            <div class="divTableCell"><div class="main" id="SSSTWWKKSSWWAAAK"></div></div>
+            <div class="divTableCell"><div class="main" id="ATAPTTSTAAATAAKE"></div></div>
+            <div class="divTableCell"><div class="main" id="TTSTSKSTTTSTSTMM"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSTMMMWMPPEATMP"></div></div>
+            <div class="divTableCell"><div class="main" id="AAATATAPMMPETTAP"></div></div>
+            <div class="divTableCell"><div class="main" id="TTKEAPPEWWWEWEKE"></div></div>
+            <div class="divTableCell"><div class="main" id="MPPEATMPMPKKWEKE"></div></div>
+            <div class="divTableCell"><div class="main" id="SKSSTTAPMWPEWEKE"></div></div>
+        </div>
+        <div class="divTableRow T5">
+            <div class="divTableCell">T5</div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id="ATAPMMMWKKAKSKAK"></div></div>
+            <div class="divTableCell"><div class="main" id="PPP0SKAKMPWWMWPE"></div></div>
+        </div>
+        <div class="divTableRow T5">
+            <div class="divTableCell">T5</div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+            <div class="divTableCell"><div class="main" id="KKAKMPKKSKKEEEE0"></div></div>
+            <div class="divTableCell"><div class="main" id=""></div></div>
+        </div>
+    </div>
+</div>
+
+<div class="divTable displayHero">
+    <div class="divTableBody">
+        <div class="divTableRow">
+            <div class="divTableCell selectedHero">
+
+            </div>
+            <div class="divTableCell skill">
+                <div class="divInTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow skill1">
+                            <div class="divTableCell content">技能 1 :</div>
+                        </div>
+                        <div class="divTableRow skill2">
+                            <div class="divTableCell content">技能 2 :</div>
+                        </div>
+                        <div class="divTableRow skill3">
+                            <div class="divTableCell content">技能 3 :</div>
+                        </div>
+                        <div class="divTableRow skill4">
+                            <div class="divTableCell content">技能 4 :</div>
+                        </div>
+                        <div class="divTableRow skill5">
+                            <div class="divTableCell content">技能 5 :</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="divTableCell combinHero">
+                <div class="divInTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow T1">
+                            <div class="divTableCell">T1</div>
+                        </div>
+                        <div class="divTableRow T2">
+                            <div class="divTableCell">T2</div>
+                        </div>
+                        <div class="divTableRow T3">
+                            <div class="divTableCell">T3</div>
+                        </div>
+                        <div class="divTableRow T4">
+                            <div class="divTableCell">T4</div>
+                        </div>
+                        <div class="divTableRow T5">
+                            <div class="divTableCell">T5</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+    input {
+        margin: 10px;
+    }
+
+    .enable {
+        opacity: unset;
+    }
+
+    .disable {
+        opacity: 0.4;
+    }
+
+    .countDiv {
+        margin-top: -20px;
+        text-align: right;
+        font-weight: 800;
+        background-color: rgba(255,255,255,0.2);
+    }
+
+        .countDiv p {
+            color: red;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+    .visHidden {
+        visibility: hidden;
+    }
+
+    .hero {
+        max-width: fit-content;
+    }
+
+        .hero .main {
+            width: 132px;
+            height: 58px;
+            background-repeat: no-repeat;
+            background-size: 132px 58px;
+        }
+
+    .simple {
+        width: 50px !important;
+    }
+
+    .displayHero {
+        width: 10vw !important;
+        position: fixed;
+        top: 60px;
+        right: 0;
+        background-color: rgb(255,255,255);
+        opacity: 0.3;
+    }
+
+        .displayHero:hover {
+            top: 50px;
+            width: 60vw !important;
+            opacity: unset;
+        }
+
+        .displayHero .selectedHero .main {
+            width: 132px;
+            height: 58px;
+            background-repeat: no-repeat;
+            background-size: 132px 58px;
+        }
+
+        .displayHero .selectedCombineHero .main {
+            width: 50px;
+            height: 58px;
+            background-repeat: no-repeat;
+            background-size: 132px 58px;
+        }
+
+        .displayHero .selectedHero {
+            width: 6vw;
+        }
+
+        .displayHero .combinHero {
+            width: 30vw;
+            overflow-x: scroll;
+        }
+
+        .displayHero .skill .content {
+            height: 70px;
+            display: block;
+            overflow: auto;
+            width: 24vw;
+        }
+
+    .selectedHero {
+        vertical-align: middle;
+    }
+
+    .T1 {
+        background-color: rgba(220,220,220,0.2)
+    }
+
+    .T2 {
+        background-color: rgba(0,238,0,0.2)
+    }
+
+    .T3 {
+        background-color: rgba(30,144,255,0.2)
+    }
+
+    .T4 {
+        background-color: rgba(160,32,240,0.2)
+    }
+
+    .T5 {
+        background-color: rgba(255,250,205,0.2)
+    }
+
+    .none {
+        background-color: rgba(0,0,0,0.2);
+    }
+
+    /* DivTable.com */
+
+
+    .divTable {
+        border-width: 1px 1px 0px 0px;
+        user-select: none;
+    }
+
+    .divInTable {
+        border-width: 0px 1px 0px 0px;
+    }
+
+    .divTable, divInTable {
+        display: table;
+        width: 100%;
+    }
+
+    .divTableRow {
+        display: table-row;
+    }
+
+    .divTableHeading {
+        background-color: #EEE;
+        display: table-header-group;
+    }
+
+    .divTableCell, .divTableHead {
+        border: 1px solid #999999;
+        display: table-cell;
+        padding: 3px 10px;
+    }
+
+    .divTableHeading {
+        background-color: #EEE;
+        display: table-header-group;
+        font-weight: bold;
+    }
+
+    .divTableFoot {
+        background-color: #EEE;
+        display: table-footer-group;
+        font-weight: bold;
+    }
+
+    .divTableBody {
+        display: table-row-group;
+    }
+
+    @@media (min-width: 1200px) {
+        .container {
+            width: 1500px;
+        }
+    }
+</style>
+
+<script>
+
+    var path = "/images/Img/";
+    var extName = ".jpg";
+    var historyId = [];
+    var heroCount = [];
+    var modeSH = "";
+
+    var moveing = false;
+    var canclick = true, cur_clientX = 0, cur_clientY = 0;
+
+    $(window).mousemove(function (m) {
+        if (moveing) {
+            if (cur_clientX != m.pageX || cur_clientY != m.pageY) {
+                canclick = false;
+            }
+            window.scrollBy(cur_clientX - m.pageX, cur_clientY - m.pageY)
+        }
+    });
+
+    $(window).mousedown(function (m) {
+        cur_clientY = m.pageY;
+        cur_clientX = m.pageX;
+        moveing = true;
+        m.preventDefault()
+    });
+
+    $(window).mouseup(function (m) {
+        moveing = false;
+    });
+
+    $(document).ready(function () {
+
+        Init();
+
+        $(document).get(0).oncontextmenu = function () {
+
+            //returnHero
+            var nowId = historyId.pop();
+            var oldId = historyId.pop();
+
+            if (oldId) {
+                CombineHeroHandler(oldId);
+            }
+            else {
+                historyId.push(nowId);
+            }
+
+            return false;
+        };
+    });
+
+    $(document).on("click", "#historyUpdate", function () {
+
+        var ishidden = $(".historyUpdateContent").is(":hidden");
+
+        if (ishidden) {
+            $(".historyUpdateContent").show();
+            $(this).val("隱藏歷史修改內容");
+        }
+        else {
+            $(".historyUpdateContent").hide();
+            $(this).val("顯示歷史修改內容");
+        }
+    });
+
+    $(document).on("click", "#normal", function () {
+        ChangeMode("normal");
+        $("#normal").hide();
+        $("#simple").show();
+    });
+
+    $(document).on("click", "#simple", function () {
+        ChangeMode("simple");
+        $("#normal").show();
+        $("#simple").hide();
+    });
+
+    $(document).on("click", "#horizontal", function () {
+        ChangeMode("horizontal");
+        $("#horizontal").hide();
+        $("#straight").show();
+    });
+
+    $(document).on("click", "#straight", function () {
+        ChangeMode("straight");
+        $("#horizontal").show();
+        $("#straight").hide();
+    });
+
+    $(document).on("mouseenter", ".displayHero", function () {
+        ScaleDisplay(true);
+    });
+
+    $(document).on("mouseleave", ".displayHero", function () {
+        ScaleDisplay(false);
+    });
+
+    $(document).on("click", ".hero div.divTableCell", function () {
+
+        if (canclick) {
+            CombineHeroHandler($(this).find(".main").attr("Id"));
+        } else {
+            canclick = true;
+        }
+    });
+
+    //init
+    function Init() {
+
+        //set name file
+        SetFileH();
+        SetFileS();
+
+        //set status
+        SetStatus(true);
+
+        //hidden
+        $("#normal").hide();
+        $("#horizontal").hide();
+        $(".heroS").hide();
+        $(".displayHero").hide();
+        $("#historyUpdate").click();
+        modeSH = "H";
+    }
+
+    function CombineHeroHandler(id) {
+
+        //resetCount
+        ReSetCount();
+
+        var newId = id;
+
+        if (historyId[historyId.length - 1] == newId) {
+
+            SetStatus(true);
+
+            ReSetDisplay();
+
+            historyId = [];
+        }
+        else {
+            SetStatus(false);
+
+            SetAllHero(newId);
+
+            historyId.push(newId);
+        }
+    }
+
+    function SetAllHero(id) {
+
+        var level = id.length.toString(2).length;
+        var highest = 5;
+
+        for (var i = 1; i <= highest; i++) {
+
+            if (i < level) {
+
+                //set lowHero
+                SetLevelHero(id, i, 1);
+            }
+            else if (i > level) {
+
+                //set highHero
+                SetLevelHero(id, i, 2);
+            }
+            else {
+
+                //set itself
+                SetStatus(true, id);
+            }
+        }
+
+        SetCount();
+
+        ReSetDisplay();
+
+        SetDisplay(id);
+    }
+
+    function ReSetDisplay() {
+        $(".displayHero .main, .displayHero .countDiv, .displayHero .selectedCombineHero").remove();
+        $(".displayHero").hide();
+    }
+
+    function SetDisplay(id) {
+        var selectedHero = $("#" + id).clone();
+
+        $(".displayHero .selectedHero").append(selectedHero);
+
+        $(".hero" + modeSH + " .enable").each(function () {
+
+            var tdDiv = $(this).parent();
+            var id = $(this).attr("id");
+            if (id) {
+                var level = id.length.toString(2).length;
+                $(".displayHero .T" + level).append(tdDiv.clone().removeClass("T" + level).addClass("selectedCombineHero"));
+            }
+        });
+
+        $(".displayHero .divTableCell.combinHero").hide();
+        $(".displayHero .divTableCell.skill").hide();
+        $(".displayHero").show();
+    }
+
+    function ScaleDisplay(scale) {
+        var ishidden = $(".displayHero .divTableCell").is(":hidden");
+
+        if (scale && ishidden) {
+            $(".displayHero .divTableCell.combinHero").show();
+            $(".displayHero .divTableCell.skill").show();
+        }
+        else {
+            $(".displayHero .divTableCell.combinHero").hide();
+            $(".displayHero .divTableCell.skill").hide();
+        }
+    }
+
+
+    //type 1:low 2:high
+    function SetLevelHero(id, level, type) {
+
+        var heroId = "";
+
+        switch (type) {
+
+            //set low
+            case 1:
+
+                for (var i = 0; i < id.length; i++) {
+
+                    heroId += id[i];
+
+                    if ((i + 1) % Math.pow(2, level - 1) == 0) {
+
+                        SetStatus(true, heroId)
+
+                        if (type) {
+
+                            //log count
+                            var hero = heroCount.find(f => f.Id == heroId);
+
+                            if (hero) {
+                                hero.Count++;
+                            }
+                            else {
+                                hero = { Id: heroId, Count: 1 };
+                                heroCount.push(hero);
+                            }
+                        }
+
+                        heroId = "";
+                    }
+                }
+
+                break;
+
+            //set high
+            case 2:
+
+                $(".T" + level + " .main").each(function () {
+
+                    heroId = $(this).attr("Id");
+
+                    if (heroId) {
+                        var combinHero = "";
+
+                        for (var i = 0; i < heroId.length; i++) {
+                            combinHero += heroId[i];
+                            if ((i + 1) % id.length == 0) {
+                                if (combinHero == id) {
+                                    SetStatus(true, heroId);
+                                }
+                                combinHero = "";
+                            }
+                        }
+                    }
+
+                });
+
+                break;
+        }
+
+
+    }
+
+    function ReSetCount() {
+        $(".countDiv").addClass("visHidden").find("p").text("X 0");
+
+        heroCount = [];
+    }
+
+    function SetCount() {
+
+        heroCount.forEach(function (item, index) {
+            var countDiv = $(".hero" + modeSH).find("#" + item.Id).siblings("div");
+            countDiv.removeClass("visHidden").find("p").text("X " + item.Count);
+        });
+    }
+
+    function SetStatus(status, id) {
+
+        var statusClass = "";
+
+        switch (status) {
+            case true:
+                statusClass = "enable";
+                break;
+            case false:
+                statusClass = "disable";
+                break;
+            default:
+                statusClass = "enable";
+                break;
+        }
+
+        if (!id) {
+
+            $(".hero" + modeSH + " div.main").each(function (e) {
+                $(this).removeClass("enable");
+                $(this).removeClass("disable");
+                $(this).addClass(statusClass);
+            });
+        }
+        else {
+            $(".hero" + modeSH).find("#" + id).removeClass("enable");
+            $(".hero" + modeSH).find("#" + id).removeClass("disable");
+            $(".hero" + modeSH).find("#" + id).addClass(statusClass);
+        }
+    }
+
+    function ChangeMode(mode) {
+
+        switch (mode) {
+            case "simple":
+                $(".hero .main").addClass(mode);
+                break;
+            case "normal":
+                $(".hero .main").removeClass().addClass("main");
+                break;
+            case "straight":
+                modeSH = "S";
+                $(".heroH").hide();
+                $(".heroS").show();
+                CombineHeroHandler(historyId[historyId.length - 1]);
+                break;
+            case "horizontal":
+                modeSH = "H";
+                $(".heroH").show();
+                $(".heroS").hide();
+                CombineHeroHandler(historyId[historyId.length - 1]);
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    function SetFileH() {
+        $(".heroH div.main").each(function (e) {
+
+            var id = $(this).attr("Id");
+
+            if (id) {
+                var occupation = $(this).closest(".divTableRow").attr("occupation");
+                var level = id.length.toString(2).length;
+                $(this).closest(".divTableCell").addClass("T" + level);
+                $(this).closest(".divTableRow").addClass(occupation);
+
+                var filePath = path + occupation + "/" + id + extName;
+
+                var countDiv = $("<div/>").addClass("countDiv").addClass("visHidden").append($("<p/>").text("X 0"));
+                $(this).css("background-image", "url(" + filePath + ")").after(countDiv);
+            }
+            else {
+                $(this).parent().addClass("none");
+            }
+        });
+    };
+
+    function SetFileS() {
+        $(".heroS div.main").each(function (e) {
+
+            var id = $(this).attr("Id");
+            if (id) {
+
+                var occupation = occupations[$(this).closest("div.divTableRow").find(".main").index(this)];
+                var level = id.length.toString(2).length;
+                $(this).closest(".divTableCell").addClass(occupation);
+                $(this).closest(".divTableRow").addClass("T" + level);
+
+
+                var filePath = path + occupation + "/" + id + extName;
+
+                var countDiv = $("<div/>").addClass("countDiv").addClass("visHidden").append($("<p/>").text("X 0"));
+                $(this).css("background-image", "url(" + filePath + ")").after(countDiv);
+            }
+            else {
+                $(this).parent().addClass("none");
+            }
+        });
+    };
+
+</script>
+
+<script>
+
+    var occupations = ["S", "A", "T", "M", "P", "W", "K", "E"];
+
+    var occupationsT2 = ["SK", "SS",
+        "AA", "AT",
+        "TT", "ST",
+        "MM", "MW",
+        "MP", "AP",
+        "WW", "WE",
+        "KK", "AK",
+        "PE", "KE"];
+
+    var occupationsT3 = ["SKSS", "SKKE", "SSWW", "SSST",
+        "AAAT", "AAAK", "ATAP", "AAKE",
+        "TTST", "TTKE", "SKST", "STMM",
+        "MMPE", "TTMM", "MMMW", "ATMW",
+        "TTAP", "MPPE", "PPP0", "ATMP",
+        "MPWW", "WWWE", "SSWE", "MWWE",
+        "KKAK", "SKAK", "MPKK", "WWKK",
+        "MWPE", "EEE0", "WEKE", "APPE"];
+
+    var occupationsT4 = ["SKSSTTAP", "SKSSMPWW", "SKKESSWW", "SKSSSKKE", "SSSTEEE0", "SSSTWWKK", "",
+        "AAATATAP", "ATAPTTST", "AAATAAAK", "SSWWAAAK", "AAATAAKE", "AAKESTMM", "",
+        "SKSTMPPE", "TTSTSKST", "TTKEWWKK", "TTSTSTMM", "AAAKTTKE", "TTKEAPPE", "",
+        "MMPETTMM", "TTMMATMW", "SKSTMMMW", "ATAPMMMW", "MMPEMWWE", "ATMWMWPE", "TTMMMMMW",
+        "SSWWPPP0", "MMPETTAP", "PPP0SKAK", "MPPEPPP0", "ATMPAPPE", "MPPEATMP", "",
+        "WWWEWEKE", "SSSTMWWE", "WWWESSWE", "TTAPMPWW", "STMMSSWE", "SSWEMWWE", "",
+        "KKAKSKAK", "WWWEWWKK", "ATMWSKAK", "KKAKMPKK", "ATMPKKAK", "MPKKWEKE", "",
+        "AAKEAPPE", "MWPEWEKE", "SKKEEEE0", "MPKKEEE0", "MWPEEEE0", "MPWWMWPE", ""];
+
+    var occupationsT5 = ["SKSSMPWWTTMMATMW", "SKSSTTAPSKKESSWW", "SKKESSWWSKSSSKKE", "SSSTWWKKSSWWAAAK", "", "",
+        "AAATATAPATAPTTST", "AAATAAAKTTSTSTMM", "SSWWAAAKSKSTMPPE", "ATAPTTSTAAATAAKE", "", "",
+        "TTKEWWKKSSWEMWWE", "SSSTWWKKTTKEAPPE", "SKSTMPPETTSTSKST", "TTSTSKSTTTSTSTMM", "", "",
+        "MMPETTMMTTMMATMW", "ATAPMMMWMPPEPPP0", "ATMWMWPETTMMMMMW", "SKSTMMMWMPPEATMP", "", "",
+        "SSWWPPP0TTAPMPWW", "SKSTMMMWPPP0SKAK", "MMPETTAPMPPEPPP0", "AAATATAPMMPETTAP", "", "",
+        "TTAPMPWWSSWEMWWE", "WWWEWEKEWWWESSWE", "ATMWMWPESTMMSSWE", "TTKEAPPEWWWEWEKE", "", "",
+        "KKAKSKAKWWWEWWKK", "ATMWSKAKMPKKWEKE", "WWWEWWKKKKAKMPKK", "MPPEATMPMPKKWEKE", "ATAPMMMWKKAKSKAK", "KKAKMPKKSKKEEEE0",
+        "AAATAAKESKKEEEE0", "MWPEWEKEMPKKEEE0", "MWPEEEE0MPWWMWPE", "SKSSTTAPMWPEWEKE", "PPP0SKAKMPWWMWPE", ""];
+
+    var element = ["Fire", "Wind", "Freeze", "Light", "Dark", "Metal"];
+    var profession = ["Defence", "Damage", "Cure"];
+    var tag = [];
+    var characters = [];
+
+    characters.push({
+        Id: occupations[0],
+        Name: "劍士",
+        Level: "1",
+        Element: element[0],
+        Profession: profession[0],
+        Skills: [],
+        Tags: [],
+    });
+
+    characters.push({
+        Id: occupations[1],
+        Name: "弓箭手",
+        Level: "1",
+        Element: element[1],
+        Profession: profession[1],
+        Skills: [],
+        Tags: [],
+    });
+
+</script>

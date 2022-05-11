@@ -1,0 +1,169 @@
+﻿input {
+    margin: 10px;
+}
+
+.enable {
+    opacity: unset;
+}
+
+.disable {
+    opacity: 0.4;
+}
+
+.countDiv {
+    margin-top: -20px;
+    text-align: right;
+    font-weight: 800;
+    background-color: rgba(255,255,255,0.2);
+}
+
+    .countDiv p {
+        color: red;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+.visHidden {
+    visibility: hidden;
+}
+
+.hero {
+    max-width: fit-content;
+}
+
+    .hero .main {
+        width: 132px;
+        height: 58px;
+        background-repeat: no-repeat;
+        background-size: 132px 58px;
+    }
+
+.simple {
+    width: 50px !important;
+}
+
+.displayHero {
+    width: 10vw !important;
+    position: fixed;
+    top: 60px;
+    right: 0;
+    background-color: rgb(255,255,255);
+    opacity: 0.3;
+}
+
+    .displayHero:hover {
+        top: 50px;
+        width: 60vw !important;
+        opacity: unset;
+    }
+
+    .displayHero .selectedHero .main {
+        width: 132px;
+        height: 58px;
+        background-repeat: no-repeat;
+        background-size: 132px 58px;
+    }
+
+    .displayHero .selectedCombineHero .main {
+        width: 50px;
+        height: 58px;
+        background-repeat: no-repeat;
+        background-size: 132px 58px;
+    }
+
+    .displayHero .selectedHero {
+        width: 6vw;
+    }
+
+    .displayHero .combinHero {
+        width: 30vw;
+        overflow-x: scroll;
+    }
+
+    .displayHero .skill .content {
+        height: 70px;
+        display: block;
+        overflow: auto;
+        width: 24vw;
+    }
+
+.selectedHero {
+    vertical-align: middle;
+}
+
+.T1 {
+    background-color: rgba(220,220,220,0.2)
+}
+
+.T2 {
+    background-color: rgba(0,238,0,0.2)
+}
+
+.T3 {
+    background-color: rgba(30,144,255,0.2)
+}
+
+.T4 {
+    background-color: rgba(160,32,240,0.2)
+}
+
+.T5 {
+    background-color: rgba(255,250,205,0.2)
+}
+
+.none {
+    background-color: rgba(0,0,0,0.2);
+}
+
+/* DivTable.com */
+
+
+.divTable {
+    border-width: 1px 1px 0px 0px;
+    user-select: none;
+}
+
+.divInTable {
+    border-width: 0px 1px 0px 0px;
+}
+
+.divTable, divInTable {
+    display: table;
+    width: 100%;
+}
+
+.divTableRow {
+    display: table-row;
+}
+
+.divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+}
+
+.divTableCell, .divTableHead {
+    border: 1px solid #999999;
+    display: table-cell;
+    padding: 3px 10px;
+}
+
+.divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+    font-weight: bold;
+}
+
+.divTableFoot {
+    background-color: #EEE;
+    display: table-footer-group;
+    font-weight: bold;
+}
+
+.divTableBody {
+    display: table-row-group;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1500px;
+    }
+}

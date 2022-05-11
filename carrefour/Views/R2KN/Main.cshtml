@@ -1,0 +1,444 @@
+﻿
+@{
+    ViewData["Title"] = "Main";
+}
+
+
+
+<h2>R2KN</h2>
+<h3 style="font-size:50px">V 1.2</h3>
+<div>
+    修改內容<br />
+    1.新增 組合秘笈 滑鼠拖曳滑動<br />
+    2.優化 組合秘笈 右上快速顯示<br />
+</div>
+<br />
+
+
+<div id="btn">
+
+    <input type="button" v-on:click="showHistory()" value="歷史修改" />
+
+    <div v-show="history">
+        歷史<br />
+        Beta 1.0<br />
+        1.新增 組合秘笈<br />
+        2.新增 組合秘笈 簡易/標準版 功能<br />
+
+        V 1.1<br />
+        1.新增 組合秘笈 垂直/水平 功能<br />
+        2.新增 組合秘笈 右鍵返回英雄 EX: 1.左鍵點 女武神 2.左鍵點 符文騎士 3.點右鍵回 女武神<br />
+        3.新增 組合秘笈 右上快速顯示<br />
+    </div>
+
+    <br />
+
+    <input v-show="!store.state.simple_g" type="button" v-on:click="changeSize()" value="標準" />
+    <input v-show="store.state.simple_g" type="button" v-on:click="changeSize()" value="簡易" />
+
+    <input v-show="!store.state.horizontal_g" type="button" v-on:click="changeMode()" value="水平" />
+    <input v-show="store.state.horizontal_g" type="button" v-on:click="changeMode()" value="垂直" />
+</div>
+<br />
+<br />
+
+<div v-show="store.state.horizontal_g" id="heroH">
+    <hero-grid :data="gridData"
+               :columns="gridColumns"
+               :selectedId="selectedId"
+               :class="tableClass"
+               v-on:selected="selectedHero">
+    </hero-grid>
+</div>
+
+<div v-show="!store.state.horizontal_g" id="heroS">
+    <hero-grid :data="gridData"
+               :columns="gridColumns"
+               :selectedId="selectedId"
+               :class="tableClass"
+               v-on:selected="selectedHero">
+    </hero-grid>
+</div>
+
+<div v-show="store.state.selectedId" class="divTable displayHero" id="heroDisplay" v-on:mouseenter="MouseOver(true)" v-on:mouseleave="MouseOver(false)">
+    <div class="divTableBody">
+        <div class="divTableRow">
+            <div class="divTableCell selectedHero">
+                <div class="main enable" :style="{ backgroundImage: 'url(' + DisplayHeroImg() + ')' }"></div>
+            </div>
+            <div class="divTableCell skill" v-show="hover">
+                <div class="divInTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow skill1">
+                            <div class="divTableCell content">技能 1 :</div>
+                        </div>
+                        <div class="divTableRow skill2">
+                            <div class="divTableCell content">技能 2 :</div>
+                        </div>
+                        <div class="divTableRow skill3">
+                            <div class="divTableCell content">技能 3 :</div>
+                        </div>
+                        <div class="divTableRow skill4">
+                            <div class="divTableCell content">技能 4 :</div>
+                        </div>
+                        <div class="divTableRow skill5">
+                            <div class="divTableCell content">技能 5 :</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="divTableCell combinHero" v-show="hover">
+                <div class="divInTable">
+                    <div class="divTableBody">
+                        <div v-for="index in 5" class="divTableRow" :class="'T'+index">
+                            <div class="divTableCell">T{{index}}</div>
+                            <div v-for="entry in store.state.combineHero.filter(f=> f.Level == 'T' + index)" class="divTableCell selectedCombineHero">
+                                <div class="main enable" :style="{ backgroundImage: 'url(' + entry.Img + ')' }"></div>
+                                <div v-show="!entry.Count.includes('0')" class="countDiv"><p>{{entry.Count}}</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="~/css/R2KN/main.css">
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://unpkg.com/vuex@2.0.0/dist/vuex.js"></script>
+<script src="~/js/R2KN/database.js"></script>
+
+<script type="text/x-template" id="heroGrid-template">
+    <div class="divTable hero" :class="tableClass">
+        <div class="divTableBody">
+            <div v-for="entry in data" class="divTableRow">
+                <div v-for="(key, index) in columns"
+                    class="divTableCell"
+                    v-on:click="selectedHeroChild(entry[index])"
+                    :class="entry[index].Level ? entry[index].Level : entry[index]">
+                        <div v-if="entry[index].Level"
+                        :class="MainClass(entry[index], selectedId) + ' ' + store.state.simpleClass_g"
+
+                        :id="entry[index].Id"
+                        :style="{ backgroundImage: 'url(' + entry[index].Img + ')' }"
+                         >
+                        </div>
+                        <div v-if="entry[index].Level"
+                            :class="CountClass(entry[index], selectedId)"><p>{{entry[index].Count}}</p></div>
+                        <div v-else>{{entry[index]}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+
+    //global
+    const store = new Vuex.Store({
+        state: {
+            horizontal_g: true,
+            simple_g: true,
+            simpleClass_g: "",
+            selectedId: "",
+            selectedImg: "",
+            combineHero: [],
+        },
+        mutations: {
+            changeMode(state) {
+                state.horizontal_g = !state.horizontal_g;
+                store.state.selectedId = "";
+                store.state.selectedImg = "";
+
+                store.state.combineHero = [];
+            },
+            changeSize(state) {
+                state.simple_g = !state.simple_g;
+                state.simple_g ? state.simpleClass_g = "" : state.simpleClass_g = "simple";
+            }
+        }
+    });
+
+    //open develop tools
+    Vue.config.devtools = true;
+
+
+    //Set vue component
+    Vue.component('hero-grid', {
+        template: "#heroGrid-template",
+        props: {
+            data: Array,
+            columns: Array,
+            selectedId: String,
+            tableClass: String,
+            horizontal: Boolean,
+        },
+        methods: {
+            selectedHeroChild(data) {
+                if (this.selectedId == data.Id) {
+                    this.selectedId = "";
+                    store.state.selectedId = "";
+                    store.state.selectedImg = "";
+
+                    store.state.combineHero = [];
+                }
+                else {
+                    this.selectedId = data.Id;
+                    store.state.selectedId = data.Id;
+                    store.state.selectedImg = data.Img;
+
+                    setTimeout(function () {
+                        store.state.combineHero = [];
+
+                        var gridData = [];
+                        if (store.state.horizontal_g) {
+                            gridData = heroHGrid.gridData.flat().filter(f => f.Enable);
+                        }
+                        else {
+                            gridData = heroSGrid.gridData.flat().filter(f => f.Enable);
+                        }
+
+                        store.state.combineHero = gridData;
+                    }, 5);
+
+                    
+                }
+            }
+        }
+    });
+
+
+    var heroHGrid = new Vue({
+        el: '#heroH',
+        data: {
+            gridColumns: [],
+            gridData: [[]],
+            selectedId: "",
+            tableClass: "heroH",
+        },
+        methods: {
+            selectedHero(data) {
+                this.selectedId = data.Id;
+                console.log("father");
+            },
+            enableHero() {
+                console.log(this.data);
+            }
+        }
+    });
+
+    var heroSGrid = new Vue({
+        el: '#heroS',
+        data: {
+            gridColumns: [],
+            gridData: [[]],
+            selectedId: "",
+            tableClass: "heroS",
+        },
+        methods: {
+            selectedHero(data) {
+                this.selectedId = data.Id;
+                console.log("father");
+            }
+        }
+    });
+
+    var heroDisplay = new Vue({
+        el: '#heroDisplay',
+        data: {
+            hover: false
+        },
+        methods: {
+            MouseOver(type) { this.hover = type }
+        }
+    });
+
+    new Vue({
+        el: '#btn',
+        data: {
+            history: false,
+        },
+        methods: {
+            changeMode: function () {
+                store.commit("changeMode");
+            },
+            changeSize: function () {
+                store.commit("changeSize");
+            },
+            showHistory: function () {
+                this.history = !this.history;
+            }
+        }
+    });
+
+
+    Init();
+
+    //init
+    function Init() {
+
+        var path = "/images/Img/";
+        var extName = ".jpg";
+
+        //set name file
+        SetFileH(path, extName);
+        SetFileS(path, extName);
+    }
+
+    function SetFileH(path, extName) {
+
+        var gridColumns = ["T1", "T2", "T2", "T3", "T3", "T3", "T3", "T4", "T4", "T4", "T4", "T4", "T4", "T4", "T5", "T5", "T5", "T5", "T5", "T5"];
+        var gridData = [];
+        var occupationHeroArr = [];
+
+        gridData.push(gridColumns);
+
+        for (var i = 0; i < heros[0].length; i++) {
+
+            for (var level = 1; level <= maxLevel; level++) {
+
+                for (var j = 0; j < heros[level - 1].length / heros[0].length; j++) {
+
+                    var id = heros[level - 1][i * heros[level - 1].length / heros[0].length + j];
+                    var levelTag = "none";
+                    var img = "";
+                    if (id) {
+                        img = path + heros[0][i] + "/" + id + extName;
+                        levelTag = "T" + level;
+                    }
+
+                    occupationHeroArr.push({
+                        Id: id,
+                        Level: levelTag,
+                        Img: img,
+                        Count: "X 0",
+                        Enable: false,
+                    });
+                }
+            }
+            gridData.push(occupationHeroArr);
+            occupationHeroArr = [];
+        }
+
+        heroHGrid.gridColumns = gridColumns;
+        heroHGrid.gridData = gridData;
+    };
+
+    function SetFileS(path, extName) {
+
+        var gridColumns = ["", "S", "A", "T", "M", "P", "W", "K", "E"];
+        var gridData = [];
+        var levelArr = [];
+
+        for (var level = 1; level <= maxLevel; level++) {
+
+            for (var i = 0; i < heros[level - 1].length / heros[0].length; i++) {
+
+                levelArr.push("T" + level);
+
+                for (var j = 0; j < heros[0].length; j++) {
+
+                    var id = heros[level - 1][j * heros[level - 1].length / heros[0].length + i];
+                    var levelTag = "none";
+                    var img = "";
+                    if (id) {
+                        img = path + heros[0][j] + "/" + id + extName;
+                        levelTag = "T" + level;
+                    }
+
+                    levelArr.push({
+                        Id: id,
+                        Level: levelTag,
+                        Img: img,
+                        Count: "X 0",
+                    });
+
+                }
+
+                gridData.push(levelArr);
+                levelArr = [];
+            }
+        }
+
+        heroSGrid.gridColumns = gridColumns;
+        heroSGrid.gridData = gridData;
+    };
+
+    function MainClass(source, selectedId) {
+
+        var result = "";
+
+        var enable = true;
+
+        if (selectedId) {
+
+            if (source.Id && selectedId.length >= source.Id.length) {
+
+                enable = IsInclude(selectedId, source.Id);
+            }
+            else {
+
+                enable = IsInclude(source.Id, selectedId);
+            }
+
+            source.Enable = enable;
+        }
+        else {
+            source.Enable = false;
+        }
+
+        
+
+        enable ? result = "main enable" : result = "main disable";
+
+        return result;
+    }
+
+    function CountClass(source, selectedId) {
+        var result = "";
+
+        var enable = false;
+
+        if (selectedId) {
+
+            if (source.Id && selectedId.length >= source.Id.length) {
+                enable = IsInclude(selectedId, source.Id);
+            }
+        }
+
+        if (enable) {
+            SetCount(source, selectedId);
+        }
+
+        enable ? result = "countDiv" : result = "countDiv visHidden";
+
+        return result;
+    }
+
+    function IsInclude(higherLevelId, lowerLevelId) {
+        var arr = [];
+
+        for (var i = 0; i < higherLevelId.length; i += lowerLevelId.length) {
+            arr.push(higherLevelId.slice(i, i + lowerLevelId.length));
+        }
+
+        return arr.indexOf(lowerLevelId) >= 0;
+    }
+
+    function SetCount(data, selectedId) {
+        var arr = [];
+
+        for (var i = 0; i < selectedId.length; i += data.Id.length) {
+            arr.push(selectedId.slice(i, i + data.Id.length));
+        }
+
+        data.Count = "X " + arr.filter(f => f == data.Id).length;
+    }
+
+    function DisplayHeroImg() {
+        return store.state.selectedImg;
+    }
+
+</script>

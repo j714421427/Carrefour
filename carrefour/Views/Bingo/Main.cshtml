@@ -1,0 +1,473 @@
+﻿@model Carrefour.Models.Users.UserMainViewModel
+
+@{
+    ViewData["Title"] = "Main";
+}
+<h2>Bingo</h2>
+<div id="main" style="display:none">
+    <div class="title">
+        <label>遊戲尚未生成</label>
+    </div>
+    <div class="content">
+        <label>起始玩家:未知</label>
+    </div>
+    <div class="reciprocal">
+        <label>倒數: n 秒</label>
+    </div>
+    <div class="clearfix"></div>
+
+    @Html.Hidden("BingoPlayerId")
+
+    <div>
+        <label>等級</label>
+        <select id="level">
+            <option value="5">5</option>
+            <option value="7">7</option>
+        </select>
+    </div>
+
+    <div id="gametable">
+
+    </div>
+</div>
+
+
+
+@*<button id="test">click</button>*@
+<button id="random" style="display:none">隨機</button>
+<button id="ready" style="display:none">準備好惹</button>
+
+<div id="win">
+    <div id="wintitle">請輸入名字！<span id="winclose" onclick="嫩()">X</span></div>
+    <label id="wincontent">請輸入名字！</label>
+    @Html.TextBox("name", null, new { @autocomplete = "off" })
+    <button id="entername">click</button>
+</div>
+
+<script type="text/javascript">
+
+    var isRefresh = true;
+
+    $(document).ready(function myfunction() {
+
+        // setting
+        $(document).on("click",".empty", function () {
+            var level = $("#level").val();
+            $(this).text(level * level - $(".empty").length + 1).removeClass("empty").addClass("ready");
+            isRefresh = false;
+            if ($(".empty").length < 0) {
+                $("#ready").show();
+            }
+        });
+
+        $("#test").on("click", function () {
+            GetBingo();
+        });
+
+        $("#ready").on("click", function () {
+            Ready();
+            $(this).hide();
+        });
+
+        $("#entername").on("click", function () {
+            EnterName();
+        });
+
+        $("#level").on("change", function () {
+            IniMode($(this).val());
+        });
+
+        $("#random").on("click", function () {
+            var level = $("#level").val();
+            IniMode(level);
+            SetNumber(level);
+            isRefresh = false;
+            $("#ready").show();
+        });
+
+        ShowWin();
+    });
+
+    function Ready() {
+
+        var numbers = [];
+
+        $(".ready").each(function () {
+            numbers.push($(this).text());
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Ready")",
+            data: {
+                name: $("#name").val(),
+                numbers: numbers,
+                level: $("#level").val(),
+            }, // serializes the form's elements.
+            success: function (data) {
+            },
+            error: function (data) {
+                alert("error");
+            },
+        });
+    }
+
+    function Setting(data) {
+
+        var title = "遊戲尚未生成";
+        var content = "起始玩家:無";
+        var reciprocal = "倒數: n 秒";
+        $("#random").hide();
+        
+        if (data == null) {
+            if (isRefresh) {
+                $("#level").val(5).change();
+                isRefresh = false;
+            }
+            $("#level").removeAttr("disabled");
+            $("#random").show();
+        }
+        else {
+            $("#level").attr("disabled", "disabled");
+            var status = data.Status;
+
+            var runPlayer = data["Player"];
+            var player = data.Players.find(x => x.Name == $("#name").val());
+
+            switch (status) {
+                case 1:
+                    title = "遊戲準備開始";
+                    content = "起始玩家:" + runPlayer;
+                    var startAt = new Date(data.StartAt);
+                    startAt.setSeconds( startAt.getSeconds() + 30 );
+                    var seconds = parseInt((startAt - $.now()) / 1000);
+                    reciprocal = "倒數: " + seconds + " 秒 開始遊戲";
+                    if (seconds < 0) {
+                        UpdateStatus(2);
+                    }
+
+                    break;
+                case 2:
+                    title = "遊戲進行中";
+                    content = "現在玩家:" + runPlayer;
+                    var startAt = new Date(data.StartAt);
+                    startAt.setSeconds( startAt.getSeconds() + 210 );
+                    var seconds = parseInt((startAt - $.now()) / 1000);
+                    reciprocal = "倒數: " + seconds + " 秒 結束遊戲";
+                    if (seconds < 0) {
+                        UpdateStatus(3);
+                    }
+
+                    break;
+                case 3:
+                    title = "遊戲結束";
+                    content = "贏家:" + runPlayer;
+
+                    var startAt = new Date(data.StartAt);
+                    startAt.setSeconds( startAt.getSeconds() + 210 );
+                    var seconds = parseInt((startAt - $.now()) / 1000);
+                    reciprocal = "倒數: " + seconds + " 秒 下一場遊戲";
+
+                    ViewMode(data.Level, data.Players);
+                    DoneNumber(JSON.parse(data.Number));
+                    $(".title").find("label").text(title);
+                    $(".content").find("label").text(content);
+                    $(".reciprocal").find("label").text(reciprocal);
+                    isRefresh = true;
+                    return;
+
+                    break;
+            }
+
+            if (player == null && status == 2) {
+                ViewMode(data.Level, data.Players);
+            }
+
+            if (player == null && status == 1) {
+
+                if ($("#level").val() != data.Level) {
+                    $("#level").val(data.Level).change();
+                }
+
+                if (isRefresh) {
+                    $("#level").val(data.Level).change();
+                    isRefresh = false;
+                }
+                $("#random").show();
+            }
+
+            if (player != null) {
+                $("#BingoPlayerId").val(player.Id);
+                PlayerMode(data.Level, player);
+
+                if (player.Name == runPlayer && status == 2) {
+                    content += " 到你了!!!!";
+                    $(".ready").on("click", function () {
+                        $(this).removeClass("ready").addClass("done");
+                        $(".ready").unbind("click");
+                        SendNumber($(this).text());
+                    });
+                }
+                else {
+                    $(".ready").unbind("click");
+                }
+            }
+
+            DoneNumber(JSON.parse(data.Number));
+        }
+
+        $(".title").find("label").text(title);
+        $(".content").find("label").text(content);
+        $(".reciprocal").find("label").text(reciprocal);
+    };
+
+    function UpdateStatus(status) {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UpdateStatus")",
+            data: { status: status }, // serializes the form's elements.
+            success: function (data) {
+            },
+            error: function (data) {
+                alert("error");
+            },
+        });
+    }
+
+    function GetBingo() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json;",
+            url: "@Url.Action("Bingo")",
+            data: { name: $("#name").val() }, // serializes the form's elements.
+            success: function (data) {
+                Setting(data);
+            },
+            error: function (data) {
+                alert("error");
+            },
+        });
+    }
+
+    function SendNumber(number) {
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Number")",
+            data: {
+                id: $("#BingoPlayerId").val(),
+                number: number,
+            }, // serializes the form's elements.,
+            success: function (data) {
+
+            },
+            error: function (data) {
+                alert("error");
+            },
+        });
+
+    }
+
+    function IniMode(level) {
+        $("#gametable div").remove();
+        var game = $("#gametable");
+        var nameLabel = $("<div/>").append($("<label/>").text($("#name").val()));
+        game.append(nameLabel);
+        game.append(GetEmptyBingo(level));
+    }
+
+    function PlayerMode(level, player) {
+        $("#gametable div").remove();
+        var game = $("#gametable");
+        var nameLabel = $("<div/>").append($("<label/>").text(player.Name));
+        game.append(nameLabel);
+        game.append(GetEmptyBingo(level));
+        SetNumber(level, JSON.parse(player.Number));
+    };
+
+    function ViewMode(level, players) {
+        $("#gametable div").remove();
+        var game = $("#gametable");
+
+        for (var i = 0; i < players.length; i++) {
+            var player = players[i];
+
+            var nameLabel = $("<div/>").append($("<label/>").text(player.Name));
+
+            game.append(nameLabel);
+            game.append(GetEmptyBingo(level));
+            SetNumber(level, JSON.parse(player.Number));
+        }
+    }
+
+    function SetNumber(level, array) {
+        var numberArry = [];
+
+        if (array == null) {
+            for (var i = 1; i <= level * level; i++) {
+                numberArry.splice(Math.floor(Math.random() * numberArry.length) , 0, i);
+            }
+
+            $(".empty").each(function () {
+                var random = Math.floor(Math.random() * numberArry.length);
+                $(this).text(numberArry[random]).removeClass("empty").addClass("ready");
+                numberArry.splice(random, 1);
+            });
+        }
+        else {
+            numberArry = array;
+
+            $(".empty").each(function () {
+                $(this).text(numberArry[0]).removeClass("empty").addClass("ready");
+                numberArry.shift();
+            });
+        }
+    }
+
+    function DoneNumber(array) {
+        $(".ready").each(function () {
+            if (array.includes(parseInt($(this).text()))) {
+                $(this).removeClass("ready").addClass("done");
+            }
+        });
+    }
+
+    function ShowWin(){
+       $("#win").show();
+    }
+
+    function HideWin(){
+        $("#win").hide();
+    }
+
+    function EnterName() {
+        var name = $("#name").val();
+
+        if (name.length < 1) {
+            嫩();
+            return;
+        }
+
+        if (name.length > 10) {
+            alert("名字這麼長膩哪國人!");
+            return;
+        }
+
+        HideWin();
+        $("#main").show();
+
+        GetBingo();
+        //per 1 secs refresh output content
+        setInterval(( () => GetBingo() )  , 1000);
+    }
+
+    function 嫩() {
+        alert("輸入名字啦嫩");
+    }
+
+    //取得Bingo表格
+    function GetEmptyBingo(level) {
+        var table = GetTable();
+
+        for (var i = 0; i < level; i++) {
+            var row = GetRow();
+            for (var j = 0; j < level; j++) {
+                row.append(GetCell());
+            }
+            table.append(row);
+        }
+
+        return table;
+    }
+
+    //取得表事件
+    function GetTable() {
+        var result = $('<div/>')
+            .addClass("css_table");
+        return result;
+    }
+
+        //取得列事件
+    function GetRow() {
+        var result = $('<div/>')
+            .addClass("css_tr")
+        return result;
+    }
+
+    //取得栏事件
+    function GetCell() {
+        var result = $('<div/>')
+            .addClass("css_td")
+            .addClass("empty");
+        return result;
+    }
+
+</script>
+
+<style>
+    /* DivTable.com */
+    .css_table { /*表格*/
+        border-collapse: collapse;
+        display: table;
+    }
+
+    .css_tr { /*橫列*/
+        padding: 3px;
+        display: table-row;
+    }
+
+    .css_td { /*一般欄位*/
+        padding: 5px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #000000;
+        display: table-cell;
+        white-space: nowrap;
+        height: 31px;
+        width: 34px;
+    }
+
+    .ready {
+        background-color: yellow;
+    }
+
+    .done {
+        background-color: greenyellow;
+    }
+
+
+    #win {
+        /*邊框*/
+        border: 1px black solid;
+        /*視窗的高度和寬度*/
+        width: 70%;
+        height: 70%;
+        /*視窗的位置*/
+        position: absolute;
+        top: 100px;
+        left: 350px;
+        /*開始時視窗不可見*/
+        display: none;
+        background-color: white;
+    }
+    /*控制背景色的樣式*/
+    #wintitle {
+        background-color: #f7ffce;
+        /*color: red;*/
+        /*控制標題欄的左內邊距*/
+        padding-left: 3px;
+    }
+
+    #wincontent {
+        padding-left: 15px;
+        padding-top: 15px;
+    }
+    /*控制關閉按鈕的位置*/
+    #winclose {
+        position: absolute;
+        right: 0;
+        margin-right: 10px;
+        /*當滑鼠移動到X上時，出現小手的效果*/
+        cursor: pointer;
+    }
+</style>

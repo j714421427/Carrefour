@@ -1,0 +1,161 @@
+﻿
+@{
+    ViewData["Title"] = "Main";
+}
+
+<h2>Test</h2>
+<h5 style="font-size:50px">測試用 看屁看</h5>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<div id="test">
+    <div id="app">
+        {{ message }}
+    </div>
+</div>
+
+<p>
+    <button onclick="myFunction()">Click Me!</button>
+</p>
+
+<div id="demo">
+    <form id="search">
+        Search <input name="query">
+    </form>
+    <demo-grid :data="gridData"
+               :columns="gridColumns">
+    </demo-grid>
+</div>
+
+<script type="text/x-template" id="grid-template">
+    <div class="divTable">
+        <div class="divTableBody">
+            <div v-for="entry in data" class="divTableRow">
+                <div v-for="key in columns" class="divTableCell" :class="entry['active']">{{entry[key]}}</div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script>
+
+    //open develop tools
+    Vue.config.devtools = true;
+
+    var myObject = new Vue({
+        el: '#app',
+        data: { message: 'Hello Vue!' },  
+        
+        methods: {
+            myFunction() {
+                myObject.message = "John Doe";
+            }
+        }
+    })
+
+    function myFunction() {
+        myObject.message = "John Doe";
+    }
+
+
+
+    // bootstrap the demo
+    //var dataT = {
+    //    gridColumns: ['name', 'power'],
+    //    gridData: [
+    //        { name: 'Chuck Norris', power: Infinity, active: "tre" },
+    //        { name: 'Bruce Lee', power: 9000 },
+    //        { name: 'Jackie Chan', power: 7000 },
+    //        { name: 'Jet Li', power: 8000 }
+    //    ]
+    //};
+
+    var tempdemo = Vue.component('demo-grid', {
+        template: "#grid-template",
+        props: {
+            data: Array,
+            columns: Array
+        },mounted: function () {
+            console.log(123)
+        },
+    });
+
+    var demo = new Vue({
+        el: '#demo',
+        data: {
+            gridColumns: ['name', 'power'],
+            gridData: [
+                { name: 'Chuck Norris', power: Infinity, active: "tre" },
+                { name: 'Bruce Lee', power: 9000 },
+                { name: 'Jackie Chan', power: 7000 },
+                { name: 'Jet Li', power: 8000 }
+            ]
+        },
+        created: function () {
+            // this points to the vm instance
+            console.log('a is: ' + this.a)
+        }
+    });
+
+    //tempdemo.updateName(0, "Jack");
+    //demo.append();
+
+</script>
+
+<style>
+    /* DivTable.com */
+
+
+    .divTable {
+        border-width: 1px 1px 0px 0px;
+        user-select: none;
+    }
+
+    .divInTable {
+        border-width: 0px 1px 0px 0px;
+    }
+
+    .divTable, divInTable {
+        display: table;
+        width: 100%;
+    }
+
+    .divTableRow {
+        display: table-row;
+    }
+
+    .divTableHeading {
+        background-color: #EEE;
+        display: table-header-group;
+    }
+
+    .divTableCell, .divTableHead {
+        border: 1px solid #999999;
+        display: table-cell;
+        padding: 3px 10px;
+    }
+
+    .divTableHeading {
+        background-color: #EEE;
+        display: table-header-group;
+        font-weight: bold;
+    }
+
+    .divTableFoot {
+        background-color: #EEE;
+        display: table-footer-group;
+        font-weight: bold;
+    }
+
+    .divTableBody {
+        display: table-row-group;
+    }
+
+    @@media (min-width: 1200px) {
+        .container {
+            width: 1500px;
+        }
+    }
+</style>

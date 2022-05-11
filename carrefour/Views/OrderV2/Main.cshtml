@@ -1,0 +1,551 @@
+﻿@model Carrefour.Models.Order.OrderMainViewModel
+
+@{
+    ViewData["Title"] = "Main";
+}
+
+<style>
+    a.disabled {
+        pointer-events: none;
+        cursor: default;
+    }
+
+    .save {
+        height: 100px;
+        width: 100%;
+        font-size: 50px;
+    }
+
+    textarea {
+        resize: none;
+        height: 400px;
+        width: 100%;
+    }
+
+    #prdouctImg {
+        height: 300px;
+        width: 600px;
+        position: absolute;
+        border: 1px solid #ccc;
+        background: #333;
+        padding: 5px;
+
+        color: #fff;
+        z-index: 1000;
+    }
+
+    img.preview {
+        max-height: 100%;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+    th.sort.ascending:after {
+        content: '   ∧';
+    }
+
+    th.sort.descending:after {
+        content: '   ∨';
+    }
+
+    input[type="checkbox"] {
+        width: 30px; /*Desired width*/
+        height: 30px; /*Desired height*/
+    }
+
+    .original-p {
+        font-size: 1rem;
+        text-decoration: line-through;
+        color: #888;
+        font-weight: 400;
+    }
+</style>
+
+<div id="app">
+    <h2>Order</h2>
+
+    <ul class="nav nav-tabs" id="myTab">  
+        <usertab v-for="user in users" :user="user" :activeid="activeId" :flag="updateFlag" @@initevent="initData"></usertab>
+    </ul>
+
+    <div class="tab-content">
+        <!-- CarreFour image -->
+        <div>
+            <a :href="carreFourConfig.href" target="_blank" style="font-size:100px">
+                <img :src="carreFourConfig.imgSrc" />
+            </a>
+        </div>
+
+        <!-- Home -->
+        <div id="home" class="tab-pane fade" v-bind:class="[activeId == -1 ? 'in active' : '']">
+            <h3>HOME</h3>
+            <p>至今刪除將來時間奇蹟並且儘量最佳台北，一樣高中最快上了一年積，房地產大家都本來確保原來評分完善對話隊，鈴聲醫藥之中活力人生收購意思授權方式，室內導致系統快樂不怕內容簡介收藏本頁，下面統計大部分學會有時候必須食品白色實在支撐那時充分一看歌。</p>
+        </div>
+
+        <!-- User -->
+        <div v-for="user in users" :id="'menu' + user.id" class="tab-pane fade" v-bind:class="[user.id == activeId && user.id > 0 ? 'in active' : '']">
+            <h3>{{user.name}}</h3>
+            <p>{{user.name}} Queue</p>
+
+            <input placeholder="Object url" v-model="productUrl" style="width:400px">
+            <input type="button" value="Add" v-on:click="addProduct()">
+            <input type="button" value="Refresh" v-on:click="refreshProductDetail(user.orders)">
+
+            <table style="margin: 20px 0px;">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" class="checkall" v-model="isAllOrderStatus" :true-value="1" :false-value="0" v-on:change="allOrderStatus()" /></th>
+                        <th>商品名稱</th>
+                        <th>網址</th>
+                        <th>規格</th>
+                        <th>品牌</th>
+                        <th style="width:80px">原價</th>
+                        <th>數量</th>
+                        <th>刪除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="order in user.orders">
+                        <td>
+                            <input type="checkbox" v-model="order.itemStatus" :true-value="1" :false-value="0" v-on:change="changeOrderStatus()" />
+                        </td>
+                        <td>
+                            <span class="name" @@mouseover="mouseoverProduct(order.productId)" @@mousemove="mousemoveProduct($event)" @@mouseleave="mouseleaveProduct()">{{getProductName(order.productId)}}</span>
+                        </td>
+                        <td>
+                             <a :href="getProductSrc(order.productId)" target="_blank">{{order.productId}}</a>
+                        </td>
+                        <td>
+                            <span class="variant">{{getProductVariant(order.productId)}}</span>
+                        </td>
+                        <td>
+                           <span class="brand">{{getProductBrnad(order.productId)}}</span>
+                        </td>
+                        <td>
+                           <span class="brand" v-html="getProductPrice(order.productId)"></span>
+                        </td>
+                        <td>
+                            <input type="number" v-model="order.quantity" :value="order.quantity" v-on:change="changeQuantity()" class="quant" max="10" min="1">
+                        </td>
+                        <td>
+                            <button type="button" :value="order.productId" class="delete-row"  v-on:click="removeOrder(order.productId)">Delete Row</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="brand">{{getCheckCount()}}</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>總金額</td>
+                        <td>
+                            <span class="brand">{{getTotalAmount(user.id)}}</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <input class="save" type="button" value="save" v-on:click="saveOrder()">
+
+            <h3>Output</h3>
+            <div><span style="font-size:100px">自己貼辣</span></div>
+            <textarea disabled="disabled">{{ exportOrders() }}</textarea>
+        </div>
+
+        <!-- Output -->
+        <div id="output" class="tab-pane fade" v-bind:class="[activeId == -2 ? 'in active' : '']">
+            <h3>Output</h3>
+            <div><span style="font-size:100px">暫時的辣</span></div>
+            <textarea id="outputcontent" disabled="disabled">{{ exportAllOrders() }}</textarea>
+            @*<input class="refresh" type="button" value="刷新">*@
+        </div>
+
+        <div id="prdouctImg" :style="{ top: prdouct.x + 'px', left: prdouct.y + 'px', display: prdouct.display }"><img class="preview" :src="prdouct.src" /></div>
+    </div>
+</div>
+
+<script src="~/js/vue/vue.min.js"></script>
+<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+<script>
+    Vue.component('usertab', {
+        props: ['user', 'activeid', 'flag'],
+        template: '<li :class="{ active: isActive() }"><a data-toggle="tab" :href="menuId()" v-on:click="init">{{user.name}}</a></li>',
+        methods: {
+            menuId : function(){
+                if(this.user.id > 0 ) {
+                    return `#menu${this.user.id}`;
+                }
+
+                return `#${this.user.key}`;
+            },
+            init: function(e){
+                //console.log(this.flag);
+                if(this.flag && !confirm('先儲存啦 想射後不理?')) {
+                    e.stopImmediatePropagation()
+                    e.stopPropagation()    
+                }
+                
+                 this.$emit('initevent', this.user.id);
+            },
+            isActive: function(){
+                return this.user.id == this.activeid;
+            }
+        }
+    })
+
+    var app = new Vue({
+        el: '#app',
+        created: function() {
+            this.getActiveId();
+            this.getProductData();
+            this.getUserData();
+        },
+        mounted: function() {
+
+        },
+        data: {
+            carreFourConfig: {
+                href: 'https://online.carrefour.com.tw/',
+                imgSrc: 'https://online.carrefour.com.tw/on/demandware.static/Sites-Carrefour-Site/-/default/dwb9742678/images/c4-logo.png',
+            },
+            users: [], 
+            products: {},
+            currentUser: {},
+            productUrl: "",
+            oldOrders: [],
+            isAllOrderStatus: 0,
+            activeId: -1,
+            updateFlag: false,
+            prdouct: {
+                display: "none",
+                x: 0,
+                y: 0,
+                src: "",
+            }
+        },
+        methods: {
+            initData: function(userId) {
+                console.log(`initData${userId}`);
+
+                if(this.currentUser != {}) {
+                    this.currentUser.orders = $.extend(true, [], this.oldOrders);
+                }
+
+                this.currentUser = this.users.filter(user => user.id == userId)[0];
+                this.initProductUrl();
+                this.updateProduct = {};
+                this.isAllOrderStatus = 0;
+                this.oldOrders = $.extend(true, [], this.currentUser.orders);
+                this.updateFlag = false;
+
+                localStorage.setItem('activeId', userId);
+            },
+            initProductUrl: function() {
+                this.productUrl = "";
+            },
+            initProduct: function() {
+                return {
+                    name: "",
+                    basePrice: 0,
+                    price: 0,
+                    brand: "",
+                    variant: "",
+                    number: 0,
+                    imgSrc: "",
+                    status: 1
+                };
+            },
+            allOrderStatus: function() {
+                this.currentUser.orders.forEach(order => order.itemStatus = this.isAllOrderStatus);
+
+                this.changeFlag();
+            },
+            changeOrderStatus: function() {
+                this.changeFlag();
+            },
+            changeQuantity: function() {
+                this.changeFlag();
+            },
+            changeFlag: function(){
+                //console.log(this.getOrderDiff().length);
+                if(this.getOrderDiff().length > 0) {
+                    this.updateFlag = true;
+                } else {
+                    this.updateFlag = false;
+                }
+            },
+            mouseoverProduct: function(productId, event) {
+                this.prdouct.src = this.getProductImg(productId);
+                this.prdouct.display = "";
+
+                //console.log(this.prdouct);
+            },
+            mouseleaveProduct : function(event) {
+                this.prdouct.src = "";
+                this.prdouct.display = "none";
+            },
+            mousemoveProduct : function(event) {
+                var xOffset = 10;
+                var yOffset = 30;
+
+                this.prdouct.x = event.pageY - $("#prdouctImg").height() - yOffset;
+                this.prdouct.y = event.pageX + yOffset;
+            },
+            exportOrders: function(){
+                var exportOrdersText = this.currentUser.orders
+                    .filter(order => order.itemStatus == 1)
+                    .map(order => {
+                        var productName = this.getProductName(order.productId);
+                        var productSrc =this.getProductSrc(order.productId)
+                        return  `${order.quantity} 份 : ${productName} \r\n${productSrc}`; 
+                    }).join('\r\n\r\n');
+
+                //console.log(exportOrdersText);
+
+                return exportOrdersText;
+            },
+            exportAllOrders: function(){
+                var exportOrdersText = this.users
+                    .map(user => user.orders)
+                    .reduce((a, b) => a.concat(b))
+                    .filter(order => order.itemStatus == 1)
+                    .map(order => {
+                        var productName = this.getProductName(order.productId);
+                        var productSrc =this.getProductSrc(order.productId)
+                        return  `${order.quantity} 份 : ${productName} \r\n${productSrc}`; 
+                    }).join('\r\n\r\n');
+
+                //console.log(exportOrdersText);
+
+                //var test = this.users
+                //    .map(user => user.orders)
+                //    .reduce((a, b) => a.concat(b))
+                //    .filter(order => order.itemStatus == 1)
+                //    .reduce((groups, order) => {
+                //        groups[order.productId] = groups[order.productId] || 0;
+                //        groups[order.productId] += order.quantity;
+
+                //        return groups;});
+
+                //console.log(test);
+
+                return exportOrdersText;
+            },
+            getOrderDiff: function(){
+                return this.currentUser.orders
+                    .filter(order => JSON.stringify(order) !=  JSON.stringify(this.oldOrders.filter(oldOrder => oldOrder.productId == order.productId)[0]));
+            },
+            getCheckCount: function() {
+                var filterOrders = this.currentUser.orders.filter(order => order.itemStatus == 1);
+
+                if(this.currentUser.id < 0 || filterOrders.length == 0) {
+                    return 0;
+                }
+
+                return filterOrders.length;
+            },
+            getTotalAmount: function(userId) {
+                var filterOrders = this.currentUser.orders.filter(order => order.itemStatus == 1);
+
+                //console.log(this.currentUser.id);
+
+                if(this.currentUser.id < 0  || filterOrders.length == 0 || this.products[filterOrders[0].productId] === undefined) {
+                    return 0;
+                }
+
+                //console.log(this.currentUser.id);
+                //console.log(filterOrders
+                //    .map(order => this.products[order.productId]));
+
+                return filterOrders
+                    .map(order => this.products[order.productId].price * order.quantity)
+                    .reduce((a, b) => a + b);
+            },
+            getActiveId: function() {
+                this.activeId = localStorage.getItem('activeId') === null ? -1 : localStorage.getItem('activeId');
+            },
+            getProduct: function(productId) {
+                //console.log(this.products[productId]);
+                var product = this.products[productId];
+                if(product === undefined) {
+                    return this.initProduct();
+                } else {
+                    return product;
+                }
+            },
+            getProductName: function(productId) {
+                return this.getProduct(productId).name;
+            },
+            getProductSrc: function(productId) {
+                return `${this.carreFourConfig.href}/tw/${productId}`;
+            },
+            getProductVariant: function(productId) {
+                var product = this.getProduct(productId);
+                if(product.number === 0) {
+                    return product.variant;
+                } else {
+                    return `${product.variant} x ${product.number}`;
+                }              
+            },
+            getProductBrnad: function(productId) {
+                return this.getProduct(productId).brand;
+            },
+            getProductPrice: function(productId) {
+                var product = this.getProduct(productId);
+
+                if(product.basePrice === product.price) {
+                    return product.price;
+                } else {
+                    return `${product.price} <span class="original-p">${product.basePrice}</span>`;
+                }
+            },
+            getProductImg: function(productId) {
+                return this.getProduct(productId).imgSrc;
+            },
+            checkProductUrl: function() {
+                var url = this.productUrl;
+                if((url.indexOf('http:') === -1 && url.indexOf('https:') === -1) ||
+                    url.indexOf('carrefour.com.tw') === -1) {
+                    return "請輸入正確網址";
+                }
+            },
+            getUserData: function() {
+                this.$http.get('/OrderV2/GetUserData').then(
+                    function(data) {
+                        //console.log(data.body);
+                        this.users = this.users.concat(data.body);
+
+                        this.users.unshift({
+                            id: -1,
+                            key: "home",
+                            name: "Home",
+                            orders: [], 
+                        });
+
+                        this.users.push({
+                            id: -2,
+                            key: "output",
+                            name: "Output Pag",
+                            orders: [], 
+                        });
+
+                        this.initData(this.activeId);
+                    }, function() {
+                        console.log('請求失敗');
+                    });
+            },
+            getProductData: function() {
+                this.$http.get('/OrderV2/GetProductData').then(
+                    function(data) {
+                        //console.log(data.body);
+                        this.products = data.body;
+                    }, function() {
+                        console.log('請求失敗');
+                    });
+            },
+            addProduct: function() {
+                var message = this.checkProductUrl();
+
+                if( message === undefined ) {
+                    this.$http.get(`GetProductDetail?productUrl=${this.productUrl}`).then(
+                        function(data) {
+                            //console.log(data.body);
+
+                            if(data.body.key !== 0 ) {
+                                this.products[data.body.key] = data.body.value;
+
+                                if(this.currentUser.orders.filter(order => order.productId == data.body.key).length == 0) {
+                                    this.addOrder(data.body.key);
+                                } else {
+                                    alert("重複商品了 眼殘?");
+                                }
+                            } else {
+                                alert("找不到品名 87");
+                            }
+                        }, function() {
+                            console.log('請求失敗');
+                        });           
+                } else {
+                    alert(message);
+                }
+
+                this.initProductUrl();
+            },
+            addOrder: function(productId) {
+                this.$http.get(`AddOrder?userId=${this.currentUser.id}&productId=${productId}`).then(
+                    function(isAdd) { 
+                        if(isAdd.body) {
+                            var order = {
+                                productId: productId,
+                                quantity: 1,
+                                itemStatus: 1
+                            };
+
+                            this.currentUser.orders.push(order);
+                            this.oldOrders.push(order);
+                        }
+                    }, function() {
+                        console.log('請求失敗');
+                    }); 
+            },
+            removeOrder: function(productId) {
+                this.$http.get(`RemoveOrder?userId=${this.currentUser.id}&productId=${productId}`).then(
+                    function(isRemove) { 
+                        if(isRemove.body) {
+                            this.currentUser.orders = this.currentUser.orders.filter(order => order.productId != productId);
+                            this.oldOrders = this.oldOrders.filter(order => order.productId != productId);
+                        }
+                    }, function() {
+                        console.log('請求失敗');
+                    }); 
+            },
+            refreshProductDetail: function(orders) {
+                orders.forEach(order => {
+                this.$http.get(`GetProductDetail?productUrl=${order.productId}`).then(
+                    function(data) {
+                        //console.log(data.body);
+                        if(data.body.key === 0 ) {
+                            //console.log(order.productId);
+
+                            this.currentUser.orders = this.currentUser.orders.filter(o => o.productId != order.productId);
+                            //console.log(this.currentUser.orders.filter(o => o.productId != order.productId));
+
+                            this.products[order.productId].status = 0;
+                        } else  {
+                            this.products[data.body.key] = data.body.value;
+                        }
+                    }, function() {
+                        console.log('請求失敗');
+                    });
+                });
+            },
+            saveOrder: function() {
+                var changeOrder = this.getOrderDiff();
+
+                this.$http.post(`UpdateOrders?userId=${this.currentUser.id}`, changeOrder).then(
+                    function(isUpdate) {
+                        if(isUpdate){
+                            alert('更新成功');
+
+                            this.oldOrders = $.extend(true, [], this.currentUser.orders);
+                            this.changeFlag();
+                        }
+                    }, function() {
+                        console.log('請求失敗');
+                    });
+
+                //console.log(this.currentUser.id);
+                //console.log(changeOrder);
+            }
+        }
+    })   
+</script>
